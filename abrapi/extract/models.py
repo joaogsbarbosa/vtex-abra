@@ -1,39 +1,55 @@
+from typing import Union
+
 import requests
 from jsonpath_rw import jsonpath, parse
 
+
 class Extrator:
-    """
-    Faz requisições e extrai os dados em todas as páginas
-    """
-    def __init__(self, url, headers):
+    """Faz requisições e extrai os dados em todas as páginas"""
+
+    def __init__(self, url, headers=None):
         self.url = url
         self.headers = headers
 
     def __iter__(self):
+        """Iteração é apenas usada quando há paginação"""
         self.pagina_atual = 1
-        return self.baixar_pagina(self.pagina_atual)
+        return self
 
     def __next__(self):
-        self.pagina_atual += 1
         pagina_baixada = self.baixar_pagina(self.pagina_atual)
         if pagina_baixada is not None:
+            self.pagina_atual += 1
             return pagina_baixada
         else:
             raise StopIteration
 
-    def baixar_pagina(self, numero):
+    def baixar_pagina(self, numero=1) -> Union[dict, list, None]:
+        """Usado para baixar uma única página"""
+
         resposta = requests.get(self.url.format(numero), headers=self.headers)
-        if resposta.status_code == 200:
+        if resposta.status_code == 200 and resposta.json() != "":
             return resposta.json()
         else:
             return None
 
 
 class Seletor:
-    """
-    Filtra os objetos utilizando o JSONPath
-    """
-    def __init__(self, objeto, path):
+    """Filtra os objetos json utilizando o JSONPath"""
 
+    def __init__(self, json):
+        self.json = json
 
-    pass
+    def get_order(self):
+        """VTEX API - Orders -> Get Order"""
+
+        path = '*'
+        jsonpath_expr = parse(path)
+        return [match.value for match in jsonpath_expr.find(self.json)]
+
+    def list_orders(self):
+        """VTEX API - Orders -> List Orders"""
+
+        path = '*'
+        jsonpath_expr = parse(path)
+        return [match.value for match in jsonpath_expr.find(self.json)]

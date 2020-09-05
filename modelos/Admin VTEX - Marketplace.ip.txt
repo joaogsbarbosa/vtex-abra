@@ -1,0 +1,591 @@
+include -1895828052 /* /products/Custom/modules/Abra Desenvolvimento/marketPlaceVtex.ijs */
+include -1895828050 /* /products/Custom/modules/Abra Desenvolvimento/integracaoVtex.ijs */
+include -1895828049 /* /products/Custom/modules/Abra Desenvolvimento/uteisAbraCadabra.ijs */
+
+this.afiliadosInfo = new marketPlaceVtex();
+
+
+
+
+this.data =  new Date();
+this.dataFim = (new Date()) + 1;
+//this.data =  (new Date()) - 1;
+//this.dataFim =  (new Date());
+this.integracaoVtexHoje = new integracaoVtex( this.data,  this.dataFim);
+
+this.dataOntem = (new Date()) - 1;
+this.dataFimOntem = new Date();
+//this.dataOntem = (new Date()) - 2;
+//this.dataFimOntem = (new Date()) - 1;
+this.integracaoVtexOntem = new integracaoVtex( this.dataOntem,  this.dataFimOntem);
+
+this.idVendaVtex = "";
+
+this.activity("run", function(){
+    this.paginaWeb = this.paginaInicial //this.retornaPagina();
+});
+
+this.interaction("Principal", function (){
+    this.visibleActions = [ "Atualizar"];
+
+    this.write(this.retornaPagina());
+
+    this.botao.timer.interval = 60000;
+    this.botao.timer.enabled  = true;
+
+
+});
+
+this.botao = this.action( "Atualizar", function ( action ) {
+    var act = action.process;
+    var actp = action.parent;
+
+    act.status = "Limpando objetos..."
+    actp.afiliadosInfo.lojaPrincipal = act.limpaObjeto(actp.afiliadosInfo.lojaPrincipalHoje);
+    actp.afiliadosInfo.lojaPrincipal = act.limpaObjeto(actp.afiliadosInfo.lojaPrincipalOntem);
+
+    actp.afiliadosInfo.afiliados = act.limpaObjeto(actp.afiliadosInfo.afiliadosHoje);
+    actp.afiliadosInfo.afiliados = act.limpaObjeto(actp.afiliadosInfo.afiliadosOntem);
+
+
+
+    act.status = "Buscando informações de venda da VTEX... Hoje";
+    actp.idVendaVtex = act.integracaoVtexHoje.infoVendas(actp.afiliadosInfo.lojaPrincipalHoje,actp.afiliadosInfo.afiliadosHoje);
+
+    act.status = "Buscando informações de venda da VTEX... Ontem"
+    act.integracaoVtexOntem.infoVendas(actp.afiliadosInfo.lojaPrincipalOntem,actp.afiliadosInfo.afiliadosOntem);
+
+    action.process.setNextInteraction( "run" )
+});
+
+this.preencheInformacoesRecurso = function preencheInformacoesRecurso(idVendaVtex){
+    var objRecurso = [];
+    var retornoObj = "";
+    var retornoAfiliadoObj = "";
+    var contador = 1;
+    var contadorItem = 1;
+    
+    var contaPassadas = [];
+    
+    var obj = "";
+    var afiliadoId = "";
+    for(var indice = 0; indice < idVendaVtex.length; indice++){
+
+        obj = "";
+        obj = this.integracaoVtexHoje.retornaPedidoCompleto("mais",idVendaVtex[indice]);
+
+        afiliadoId = obj.affiliateId.toUpperCase().replace("MZL","MGZ");
+
+        //if(typeof obj["error"] === "undefined"){
+            contadorItem = 1;
+                              //
+            for(var indiceItem = 0; indiceItem < obj.items.length; indiceItem++){
+                this.status = "Buscando informações detalhadas dos pedidos de Hoje... "+contador+" de "+idVendaVtex.length+"\n"+
+                              "Pedido: "+idVendaVtex[indice]+"\n"+
+                              "Item "+contadorItem+" de "+obj.items.length;
+
+
+                if(objRecurso.length > 0){
+
+                    retornoObj = "";
+
+                    retornoObj = this.retornaIndiceVetorObj(objRecurso,"codigo",obj.items[indiceItem].refId);
+
+
+
+                    if(retornoObj){
+
+                        retornoAfiliadoObj = "";
+                        objRecurso[retornoObj].qtdVenda += obj.items[indiceItem].quantity;
+                        objRecurso[retornoObj].receita  += Number(this.converte(obj.items[indiceItem].sellingPrice * obj.items[indiceItem].quantity));
+
+                        retornoAfiliadoObj = objRecurso[retornoObj].afiliados[0][afiliadoId];
+
+                        if(typeof retornoAfiliadoObj != "undefined"){
+                            retornoAfiliadoObj.qtdVendas += obj.items[indiceItem].quantity;
+                        }
+                    }else{
+
+
+                        objRecurso.push({
+                                        codigo : obj.items[indiceItem].refId,
+                                        descricao: this.removeCaracterEspecial(obj.items[indiceItem].name),
+                                        qtdVenda: obj.items[indiceItem].quantity,
+                                        ticketMedio: 0,
+                                        receita: Number(this.converte(obj.items[indiceItem].sellingPrice)),
+                                        afiliados : []
+                                      });
+                        objRecurso[objRecurso.length-1].afiliados.push({
+                                        BWM:    {nome : "Skyhub-BWM",qtdVendas : 0},
+                                        BRM:    {nome : "Skyhub-BRM",qtdVendas : 0},
+                                        RCD:    {nome : "Ric.Elet.",qtdVendas : 0},
+                                        SHP:    {nome : "ShopFacil",qtdVendas : 0},
+                                        LST:    {nome : "Olist",qtdVendas : 0},
+                                        ZMM:    {nome : "Zoom",qtdVendas : 0},
+                                        WMT:    {nome : "Walmart",qtdVendas : 0},
+                                        CRF:    {nome : "Carrefour",qtdVendas : 0},
+                                        MZN:    {nome : "Amazon",qtdVendas : 0},
+                                        MDM:    {nome : "Mad.Mad.",qtdVendas : 0},
+                                        FCB:    {nome : "Facebook",qtdVendas : 0},
+                                        BDW:    {nome : "Skyhub-BDW",qtdVendas : 0},
+                                        MML:    {nome : "Mer.Livre",qtdVendas : 0},
+                                        GSP:    {nome : "GoogleShop.",qtdVendas : 0},
+                                        NVP:    {nome : "ViaVarejo",qtdVendas : 0},
+                                        MGZ:    {nome : "Mag.Luiza",qtdVendas : 0},
+                                        SHP:    {nome : "ShopFacil",qtdVendas : 0},
+                                        CNV:    {nome : "ViaVarejo",qtdVendas : 0},
+                                         "":    {nome : "Google",qtdVendas : 0}
+                                    });
+                        objRecurso[objRecurso.length-1].afiliados[0][afiliadoId].qtdVendas = obj.items[indiceItem].quantity;
+                        
+                        contaPassadas.push(objRecurso.length)
+                    }
+
+                }else{
+                    objRecurso.push({
+                                        codigo : obj.items[indiceItem].refId,
+                                        descricao: this.removeCaracterEspecial(obj.items[indiceItem].name),
+                                        qtdVenda: obj.items[indiceItem].quantity,
+                                        ticketMedio: 0,
+                                        receita: Number(this.converte(obj.items[indiceItem].sellingPrice)),
+                                        afiliados : []
+                                      })
+
+                    objRecurso[objRecurso.length-1].afiliados.push({
+                                        BWM:    {nome : "Skyhub-BWM",qtdVendas : 0},
+                                        BRM:    {nome : "Skyhub-BRM",qtdVendas : 0},
+                                        RCD:    {nome : "Ric.Elet.",qtdVendas : 0},
+                                        SHP:    {nome : "ShopFacil",qtdVendas : 0},
+                                        LST:    {nome : "Olist",qtdVendas : 0},
+                                        ZMM:    {nome : "Zoom",qtdVendas : 0},
+                                        WMT:    {nome : "Walmart",qtdVendas : 0},
+                                        CRF:    {nome : "Carrefour",qtdVendas : 0},
+                                        MZN:    {nome : "Amazon",qtdVendas : 0},
+                                        MDM:    {nome : "Mad.Mad.",qtdVendas : 0},
+                                        FCB:    {nome : "Facebook",qtdVendas : 0},
+                                        BDW:    {nome : "Skyhub-BDW",qtdVendas : 0},
+                                        MML:    {nome : "Mer.Livre",qtdVendas : 0},
+                                        GSP:    {nome : "GoogleShop.",qtdVendas : 0},
+                                        NVP:    {nome : "ViaVarejo",qtdVendas : 0},
+                                        MGZ:    {nome : "Mag.Luiza",qtdVendas : 0},
+                                        SHP:    {nome : "ShopFacil",qtdVendas : 0},
+                                        CNV:    {nome : "ViaVarejo",qtdVendas : 0},
+                                         "":    {nome : "Google",qtdVendas : 0}
+                                    });
+                    objRecurso[objRecurso.length-1].afiliados[0][afiliadoId].qtdVendas = obj.items[indiceItem].quantity;
+                }
+                contadorItem++;
+            }
+        contador++;
+    }
+    
+
+    this.status = "Ordenando recursos... "
+    objRecurso.sort(this.ordenaPorReceita);
+    return objRecurso;
+}
+
+this.geraHtmlItens = function geraHtmlItens(objInfoRecurso,afiliadosAtivos){
+    var html = "";
+    var htmlCab = "";
+    var htmlDet = "";
+              
+    for(var indice = 0; indice < afiliadosAtivos.length; indice++){
+        htmlCab+= " <th scope='col'>"+this.afiliadosInfo.afiliadosHoje[afiliadosAtivos[indice]].nome+"</th> "
+    }
+    for(var indice = 0; indice < objInfoRecurso.length; indice++){
+        htmlDet += "<tr>";
+        htmlDet += "<td>"+objInfoRecurso[indice].codigo+" - "+objInfoRecurso[indice].descricao+"</td>"
+        htmlDet += "<td>"+objInfoRecurso[indice].qtdVenda+"</td>"
+        htmlDet += "<td>"+this.converteMonetario((objInfoRecurso[indice].receita / objInfoRecurso[indice].qtdVenda))+"</td>"
+        htmlDet += "<td>"+this.converteMonetario(objInfoRecurso[indice].receita)+"</td>"
+
+        for(var indiceAfiliado = 0; indiceAfiliado < afiliadosAtivos.length; indiceAfiliado++){
+            htmlDet += "<td>"+objInfoRecurso[indice].afiliados[0][afiliadosAtivos[indiceAfiliado]].qtdVendas+"</td>"
+        }
+        htmlDet += "</tr>";
+    }
+
+    html += "<thead>
+                <tr>
+                  <th scope='col'>Recurso</th>
+                  <th scope='col'>QTD</th>
+                  <th scope='col'>TICKET MÉDIO</th>
+                  <th scope='col'>RECEITA BRUTA</th>
+                  "+htmlCab+"
+                </tr>
+              </thead>
+              <tbody>
+                "+htmlDet+"
+              </tbody>
+              ";
+    return html;
+}
+
+this.ordenaPorReceita = function ordenaPorReceita(a, b){
+    return b.receita - a.receita;
+}
+
+this.limpaObjeto = function limpaObjeto(obj){
+    for(var campo in obj){
+        obj[campo].receita = 0;
+        obj[campo].qtdVendas = 0;
+        obj[campo].ultimoPedido = "";
+    }
+    return obj;
+}
+
+
+this.preencheTicketMedio = function preencheTicketMedio(obj){
+    for(var campo in obj){
+        if(obj[campo].qtdVendas > 0){
+            obj[campo].ticketmedio = (obj[campo].receita / obj[campo].qtdVendas);
+        }
+    }
+    return obj;
+}
+
+
+
+this.retornaInfoAfiliados = function retornaInfoAfiliados(obj){
+    var vetorAtual = [];
+    var vetorOrdenado = [];
+
+    var conteudoAfiliado = { htmlGerado : "",
+                            afiliadosAtivos : []};
+    
+    while(conteudoAfiliado.afiliadosAtivos.length > 0){
+        conteudoAfiliado.afiliadosAtivos.pop();
+    }
+    while(vetorOrdenado.length > 0){
+        vetorOrdenado.pop();
+        vetorAtual.pop();
+    }
+
+    for(var campo in obj){
+        if(obj[campo].qtdVendas > 0){
+            vetorAtual.push(campo);
+        }
+    }
+    
+    vetorOrdenado = this.ordena(vetorAtual,obj);
+    
+    for(var indice = 0; indice < vetorOrdenado.length; indice++){
+
+        conteudoAfiliado.afiliadosAtivos.push(vetorOrdenado[indice]);
+        conteudoAfiliado.htmlGerado += "<div class='col-xl-2 col-md-6 mb-4'>
+                              <div class='card border-left-success shadow h-10 py-2'>
+                                <div class='card-body'>
+                                  <div class='row align-items-center'>
+                                    <div class='col mr-2'>
+                                      <div class='text-xs font-weight-bold text-success text-uppercase mb-1'>"+obj[vetorOrdenado[indice]].nome+"</div>
+                                      <div class='h5 mb-0 font-weight-bold text-gray-800 mb-2'>"+this.converteMonetario(obj[vetorOrdenado[indice]].receita)+"</div>
+                                    </div>
+
+                                    <div class='col mr-2'>
+                                      <div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Ult. Ped</div>
+                                      <div class='h5 mb-0 font-weight-bold text-gray-800 mb-2'>"+obj[vetorOrdenado[indice]].ultimoPedido+"</div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>"
+    }
+
+    return conteudoAfiliado;
+}
+
+this.retornaPagina = function retornaPagina(){
+    this.status = "Gerando dashboard...";
+    this.afiliadosInfo.lojaPrincipalHoje  = this.preencheTicketMedio(this.afiliadosInfo.lojaPrincipalHoje);
+    this.afiliadosInfo.lojaPrincipalOntem = this.preencheTicketMedio(this.afiliadosInfo.lojaPrincipalOntem);
+    this.afiliadosInfo.afiliadosHoje      = this.preencheTicketMedio(this.afiliadosInfo.afiliadosHoje);
+    this.afiliadosInfo.afiliadosOntem     = this.preencheTicketMedio(this.afiliadosInfo.afiliadosOntem);
+
+    var afiliadosHoje = {htmlGerado : ""};
+    var objInfoRecursoPreenchido = "";
+    var afiliadosOntem = {htmlGerado : ""};
+    var itensDaTabela = "";
+    
+    if(this.afiliadosInfo.lojaPrincipalHoje["Principal"].qtdVendas > 0){
+        afiliadosHoje = this.retornaInfoAfiliados(this.afiliadosInfo.afiliadosHoje);
+
+        this.status = "Buscando informações detalhadas dos pedidos de Hoje...";
+        objInfoRecursoPreenchido = this.preencheInformacoesRecurso(this.idVendaVtex)
+
+        afiliadosOntem = this.retornaInfoAfiliados(this.afiliadosInfo.afiliadosOntem);
+
+        itensDaTabela = this.geraHtmlItens(objInfoRecursoPreenchido,afiliadosHoje.afiliadosAtivos)
+    }
+    //if(this.afiliadosInfo.lojaPrincipalHoje["Principal"].qtdVendas > 0){
+    //    throw new Error("afiliadosHoje: "+JSON.stringify(this.afiliadosInfo.afiliadosHoje)+"\n\n"+
+    //                    "afiliadosOntem: "+JSON.stringify(this.afiliadosInfo.afiliadosOntem)+"\n\n");
+    //}
+    
+    return "
+    <!doctype html>
+<html lang='en'>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+
+        <!-- Bootstrap CSS -->
+        <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous'>
+
+        <title>Dashboard Marketplace</title>
+
+        <style>
+            .tableScroll {
+                max-height: 300px;
+                overflow-x:auto;
+            }
+
+            .principalFundo{
+                background-color: white;
+            }
+        </style>
+
+
+    </head>
+    <body>
+        <div id='principal' class='principalFundo'>
+            <div class='container-fluid'>
+                <div class='d-sm-flex align-items-center justify-content-between mb-4'>
+                    <h1 class='h2 mb-0 text-gray-800 font-weight-bold'>Dashboard Marketplace</h1>
+                    <button id='telaCheia' type='button' class='btn btn-primary btn-lg h-100' onclick='openFullscreen();'>Tela Cheia</button>
+                    <h1 class='h2 mb-0 text-gray-800 font-weight-bold'>Última atualização: "+this.retornaHora()+"</h1>
+                </div>
+            </div>
+
+            <div class=''>
+                <div class='row'>
+                    <div class='col-12'>
+
+                        <div class='container-fluid'>
+                            <h4 class=' font-weight-bold'>Hoje</h4>
+                            <div class='row'>
+
+                                <div class='col-xl-3 col-md-6 mb-4'>
+                                    <div class='card border-left-primary shadow h-100 py-2'>
+                                        <div class='card-body'>
+                                          <div class='col '>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>Vendas</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800'>"+this.afiliadosInfo.lojaPrincipalHoje["Principal"].qtdVendas+"</div>
+                                            </div>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>TICKET MÉD.</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalHoje["Principal"].ticketmedio)+"</div>
+                                            </div>
+                                           <div class='row'>
+                                              <div class='col-5 text-xs font-weight-bold text-primary text-uppercase mb-2'>RECEITA</div>
+                                              <div class='col-7 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalHoje["Principal"].receita)+"</div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                "+afiliadosHoje.htmlGerado+"
+
+                        </div>
+
+                            <h4 class=' font-weight-bold'>Ontem</h4>
+                            <div class='row'>
+
+                                <div class='col-xl-3 col-md-6 mb-4'>
+                                    <div class='card border-left-primary shadow h-100 py-2'>
+                                        <div class='card-body'>
+                                          <div class='col '>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>Vendas</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800'>"+this.afiliadosInfo.lojaPrincipalOntem["Principal"].qtdVendas+"</div>
+                                            </div>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>TICKET MÉD.</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalOntem["Principal"].ticketmedio)+"</div>
+                                            </div>
+                                           <div class='row'>
+                                              <div class='col-5 text-xs font-weight-bold text-primary text-uppercase mb-2'>RECEITA</div>
+                                              <div class='col-7 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalOntem["Principal"].receita)+"</div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                "+afiliadosOntem.htmlGerado+"
+
+                        </div>
+                        <div class='col-12'>
+                            <div class='table-overflow' style>
+                                <table class='table table-striped tableScroll'>
+                                  <thead>
+                                    "+itensDaTabela+"
+
+                                  </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n' crossorigin='anonymous'></script>
+    <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin='anonymous'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' integrity='sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6' crossorigin='anonymous'></script>
+
+
+
+    <script>
+        var elem = document.getElementById('telaCheia');
+        function openFullscreen() {
+          var el = document.documentElement, rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
+            rfs.call(el);
+        }
+    </script>
+  </body>
+</html>
+    ";
+}
+
+
+this.paginaInicial = "
+    <!doctype html>
+<html lang='en'>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+
+        <!-- Bootstrap CSS -->
+        <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous'>
+
+        <title>Dashboard Marketplace</title>
+
+        <style>
+            .tableScroll {
+                max-height: 300px;
+                overflow-x:auto;
+            }
+
+            .principalFundo{
+                background-color: white;
+            }
+        </style>
+
+
+    </head>
+    <body>
+        <div id='principal' class='principalFundo'>
+            <div class='container-fluid'>
+                <div class='d-sm-flex align-items-center justify-content-between mb-4'>
+                    <h1 class='h2 mb-0 text-gray-800 font-weight-bold'>Dashboard Marketplace</h1>
+                    <button id='telaCheia' type='button' class='btn btn-primary btn-lg h-100' onclick='openFullscreen();'>Tela Cheia</button>
+                    <h1 class='h2 mb-0 text-gray-800 font-weight-bold'>Última atualização: "+this.retornaHora()+"</h1>
+                </div>
+            </div>
+
+            <div class=''>
+                <div class='row'>
+                    <div class='col-12'>
+
+                        <div class='container-fluid'>
+                            <h4 class=' font-weight-bold'>Hoje</h4>
+                            <div class='row'>
+
+                                <div class='col-xl-3 col-md-6 mb-4'>
+                                    <div class='card border-left-primary shadow h-100 py-2'>
+                                        <div class='card-body'>
+                                          <div class='col '>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>Vendas</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800'>"+this.afiliadosInfo.lojaPrincipalHoje["Principal"].qtdVendas+"</div>
+                                            </div>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>TICKET MÉD.</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalHoje["Principal"].ticketmedio)+"</div>
+                                            </div>
+                                           <div class='row'>
+                                              <div class='col-5 text-xs font-weight-bold text-primary text-uppercase mb-2'>RECEITA</div>
+                                              <div class='col-7 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalHoje["Principal"].receita)+"</div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                        </div>
+
+                            <h4 class=' font-weight-bold'>Ontem</h4>
+                            <div class='row'>
+
+                                <div class='col-xl-3 col-md-6 mb-4'>
+                                    <div class='card border-left-primary shadow h-100 py-2'>
+                                        <div class='card-body'>
+                                          <div class='col '>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>Vendas</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800'>"+this.afiliadosInfo.lojaPrincipalOntem["Principal"].qtdVendas+"</div>
+                                            </div>
+                                            <div class='row'>
+                                              <div class='col-6 text-xs font-weight-bold text-primary text-uppercase mb-2'>TICKET MÉD.</div>
+                                              <div class='col-6 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalOntem["Principal"].ticketmedio)+"</div>
+                                            </div>
+                                           <div class='row'>
+                                              <div class='col-5 text-xs font-weight-bold text-primary text-uppercase mb-2'>RECEITA</div>
+                                              <div class='col-7 text-right h5 mb-0 font-weight-bold text-gray-800 '>"+this.converteMonetario(this.afiliadosInfo.lojaPrincipalOntem["Principal"].receita)+"</div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n' crossorigin='anonymous'></script>
+    <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin='anonymous'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' integrity='sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6' crossorigin='anonymous'></script>
+
+
+
+    <script>
+        var elem = document.getElementById('telaCheia');
+        function openFullscreen() {
+          var el = document.documentElement, rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
+            rfs.call(el);
+        }
+    </script>
+  </body>
+</html>
+    ";

@@ -1,0 +1,642 @@
+this.montaTabelaVendaAbraCadabra = "";
+this.montaTabelaVendaAbraMais = "";
+this.montaTabelaVendaAbraCasa = "";
+
+this.objV = "";
+this.tela = "";
+this.data = "";
+this.dataFim = "";
+
+this.activity("run", function (){
+    this.montaTabelaVendaAbraCadabra = "";
+    this.montaTabelaVendaAbraMais = "";
+    this.montaTabelaVendaAbraCasa = "";
+    this.montaTabelaRecursosaAbraCadabra = "";
+    this.montaTabelaRecursosaAbraMais = "";
+    this.montaTabelaRecursosaAbraCasa = "";
+
+    this.recursosAbraCadabra = new DataSet();
+    this.recursosAbraCadabra.createField("CODIGO", "string", 30);
+    this.recursosAbraCadabra.createField("NOME", "string", 200);
+    this.recursosAbraCadabra.createField("QUANTIDADE", "integer");
+    this.recursosAbraCadabra.createField("PRECO", "number");
+    this.recursosAbraCadabra.create();
+
+    this.recursosAbraMais = new DataSet();
+    this.recursosAbraMais.createField("CODIGO", "string", 30);
+    this.recursosAbraMais.createField("NOME", "string", 200);
+    this.recursosAbraMais.createField("QUANTIDADE", "integer");
+    this.recursosAbraMais.createField("PRECO", "number");
+    this.recursosAbraMais.create();
+
+    this.recursosAbraCasa = new DataSet();
+    this.recursosAbraCasa.createField("CODIGO", "string", 30);
+    this.recursosAbraCasa.createField("NOME", "string", 200);
+    this.recursosAbraCasa.createField("QUANTIDADE", "integer");
+    this.recursosAbraCasa.createField("PRECO", "number");
+    this.recursosAbraCasa.create();
+
+    this.status = "Buscando informações de venda - Ontem - VTEX..."
+
+    this.data = (new Date()) - 1;
+    this.dataFim = new Date();
+    this.objVOntem = this.infoVendas();
+
+    var ticketMedioAbraCadabraOntem = 0.00;
+    var ticketMedioAbraMaisOntem = 0.00;
+    var ticketMedioAbraCasaOntem = 0.00;
+
+    if((this.objVOntem.totalVendaAbraCadabra > 0.00) && (this.objVOntem.totalVendaAbraCadabra)){
+        ticketMedioAbraCadabraOntem = this.converteMonetario(this.objVOntem.totalVendaAbraCadabra/this.objVOntem.qtdTotalVendaAbraCadabra);
+    }else{
+        ticketMedioAbraCadabraOntem = this.converteMonetario(0);
+    }
+
+    if((this.objVOntem.totalVendaAbraMais > 0.00) && (this.objVOntem.totalVendaAbraMais)){
+        ticketMedioAbraMaisOntem = this.converteMonetario(this.objVOntem.totalVendaAbraMais/this.objVOntem.qtdTotalVendaAbraMais);
+    }else{
+        ticketMedioAbraMaisOntem = this.converteMonetario(0);
+    }
+
+    if((this.objVOntem.totalVendaAbraCasa > 0.00) && (this.objVOntem.totalVendaAbraCasa)){
+         ticketMedioAbraCasaOntem = this.converteMonetario(this.objVOntem.totalVendaAbraCasa/this.objVOntem.qtdTotalVendaAbraCasa);
+    }else{
+        ticketMedioAbraCasaOntem = this.converteMonetario(0);
+    }
+
+    this.status = "Buscando informações de venda - Hoje - VTEX..."
+
+    this.data = new Date();
+    this.dataFim = (new Date()) + 1;
+    this.objV = this.infoVendas();
+
+    var ticketMedioAbraCadabra = 0.00;
+    var ticketMedioAbraMais = 0.00;
+    var ticketMedioAbraCasa = 0.00;
+
+    if((this.objV.totalVendaAbraCadabra > 0.00) && (this.objV.totalVendaAbraCadabra)){
+        ticketMedioAbraCadabra = this.converteMonetario((this.objV.totalVendaAbraCadabra/this.objV.qtdTotalVendaAbraCadabra));
+    }else{
+        ticketMedioAbraCadabra = this.converteMonetario(0);
+    }
+
+    if((this.objV.totalVendaAbraMais > 0.00) && (this.objV.totalVendaAbraMais)){
+        ticketMedioAbraMais = this.converteMonetario((this.objV.totalVendaAbraMais/this.objV.qtdTotalVendaAbraMais));
+    }else{
+        ticketMedioAbraMais = this.converteMonetario(0);
+    }
+
+    if((this.objV.totalVendaAbraCasa > 0.00) && (this.objV.totalVendaAbraMais)){
+        ticketMedioAbraCasa = this.converteMonetario((this.objV.totalVendaAbraCasa/this.objV.qtdTotalVendaAbraCasa));
+    }else{
+        ticketMedioAbraCasa = this.converteMonetario(0);
+    }
+
+    this.montaTabelaVendaAbraCadabra = "<tr>
+                                            <td>Hoje</td>
+                                            <td>"+this.objV.qtdTotalVendaAbraCadabra+"</td>
+                                            <td>R$ "+ticketMedioAbraCadabra+"</td>
+                                            <td>R$ "+this.converteMonetario(this.objV.totalVendaAbraCadabra)+"</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ontem</td>
+                                            <td>"+this.objVOntem.qtdTotalVendaAbraCadabra+"</td>
+                                            <td>R$ "+ticketMedioAbraCadabraOntem+"</td>
+                                            <td>R$ "+this.converteMonetario(this.objVOntem.totalVendaAbraCadabra)+"</td>
+                                        </tr>
+                                        ";
+
+    this.montaTabelaVendaAbraMais = "<tr>
+                                        <td>Hoje</td>
+                                        <td>"+this.objV.qtdTotalVendaAbraMais+"</td>
+                                        <td>R$ "+ticketMedioAbraMais+"</td>
+                                        <td>R$ "+this.converteMonetario(this.objV.totalVendaAbraMais)+"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ontem</td>
+                                        <td>"+this.objVOntem.qtdTotalVendaAbraMais+"</td>
+                                        <td>R$ "+ticketMedioAbraMaisOntem+"</td>
+                                        <td>R$ "+this.converteMonetario(this.objVOntem.totalVendaAbraMais)+"</td>
+                                    </tr>
+                                    ";
+
+    this.montaTabelaVendaAbraCasa = "<tr>
+                                        <td>Hoje</td>
+                                        <td>"+this.objV.qtdTotalVendaAbraCasa+"</td>
+                                        <td>R$ "+ticketMedioAbraCasa+"</td>
+                                        <td>R$ "+this.converteMonetario(this.objV.totalVendaAbraCasa)+"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ontem</td>
+                                        <td>"+this.objVOntem.qtdTotalVendaAbraCasa+"</td>
+                                        <td>R$ "+ticketMedioAbraCasaOntem+"</td>
+                                        <td>R$ "+this.converteMonetario(this.objVOntem.totalVendaAbraCasa)+"</td>
+                                    </tr>
+                                    ";
+
+    this.recursosAbraCadabra = this.recursosAbraCadabra.sum("CODIGO;NOME","QUANTIDADE;PRECO");
+    this.recursosAbraMais = this.recursosAbraMais.sum("CODIGO;NOME","QUANTIDADE;PRECO");
+    this.recursosAbraCasa = this.recursosAbraCasa.sum("CODIGO;NOME","QUANTIDADE;PRECO");
+
+    this.recursosAbraCadabra.indexFieldNames = "-PRECO";
+    this.recursosAbraMais.indexFieldNames = "-PRECO";
+    this.recursosAbraCasa.indexFieldNames = "-PRECO";
+
+    for(this.recursosAbraCadabra.first();!this.recursosAbraCadabra.eof;this.recursosAbraCadabra.next()){
+        this.montaTabelaRecursosaAbraCadabra += "
+                                                <tr>
+                                                    <td class='tddescricao'>"+this.recursosAbraCadabra.CODIGO+" - "+this.removeCaracterEspecial(this.recursosAbraCadabra.NOME)+"</td>
+                                                    <td>"+this.recursosAbraCadabra.QUANTIDADE+"</td>
+                                                    <td>R$ "+this.converteMonetario((this.recursosAbraCadabra.PRECO)/this.recursosAbraCadabra.QUANTIDADE)+"</td>
+                                                    <td>R$ "+this.converteMonetario(this.recursosAbraCadabra.PRECO)+"</td>
+                                                </tr>
+                                                ";
+    }
+
+    for(this.recursosAbraMais.first();!this.recursosAbraMais.eof;this.recursosAbraMais.next()){
+        this.montaTabelaRecursosaAbraMais += "
+                                            <tr>
+                                                <td class='tddescricao'>"+this.recursosAbraMais.CODIGO+" - "+this.removeCaracterEspecial(this.recursosAbraMais.NOME)+"</td>
+                                                <td>"+this.recursosAbraMais.QUANTIDADE+"</td>
+                                                <td>R$ "+this.converteMonetario((this.recursosAbraMais.PRECO)/this.recursosAbraMais.QUANTIDADE)+"</td>
+                                                <td>R$ "+this.converteMonetario(this.recursosAbraMais.PRECO)+"</td>
+                                            </tr>
+                                            ";
+    }
+
+    for(this.recursosAbraCasa.first();!this.recursosAbraCasa.eof;this.recursosAbraCasa.next()){
+        this.montaTabelaRecursosaAbraCasa += "
+                                            <tr>
+                                                <td class='tddescricao'>"+this.recursosAbraCasa.CODIGO+" - "+(this.recursosAbraCasa.NOME)+"</td>
+                                                <td>"+this.recursosAbraCasa.QUANTIDADE+"</td>
+                                                <td>R$ "+this.converteMonetario((this.recursosAbraCasa.PRECO)/this.recursosAbraCasa.QUANTIDADE)+"</td>
+                                                <td>R$ "+this.converteMonetario(this.recursosAbraCasa.PRECO)+"</td>
+                                            </tr>
+                                             ";
+    }
+
+    this.paginaAdmin = "
+
+<html>
+<head>
+    <meta charset='Windows-1252'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+
+<style>
+        th,td {
+            text-align: center;
+            font-size: 14px;
+            //padding: 8px;
+        }
+
+        .tddescricao {
+            font-size: 14px;
+            line-height: 1;
+            text-align: left;
+            padding: 8px;
+        }
+
+        h4 {
+            font-size: 12px;
+        }
+
+        tr:nth-child(even){
+            background-color: #f2f2f2
+        }
+
+        th {
+            background-color: orange;
+            color: white;
+        }
+
+        .thcasa {
+            background-color: #a10626;
+            color: white;
+        }
+
+		.thmais {
+            background-color: orange;
+            color: white;
+        }
+
+        #tab1 {
+        	position:absolute;
+        	width:32%;
+        	top:60px;
+        	left:5px;
+        	padding-bottom:20px;
+        }
+
+        #tabrecursos1 {
+        	position:absolute;
+        	width:32%;
+        	top:150px;
+        	left:5px;
+        	padding-bottom:20px;
+        }
+
+        #tab2 {
+        	position:absolute;
+        	width:32%;
+        	top:60px;
+            left:34%;
+			right:34%
+        	padding-bottom:20px;        	
+        }
+
+        #tabrecursos2 {
+        	position:absolute;
+        	width:32%;
+        	top:150px;
+        	left:34%;
+			right:34%;
+        	padding-bottom:20px;    	
+        }
+
+		#tab3 {
+        	position:absolute;
+        	width:32%;
+        	top:60px;
+            right:5px;
+        	padding-bottom:20px;      	
+        }
+
+        #tabrecursos3 {
+        	position:absolute;
+        	width:32%;
+        	top:150px;
+        	right:5px;
+        	padding-bottom:20px;       	
+        }
+
+        .divmeio {
+        	position:absolute;
+        	width:49%;
+        	top:5px;
+        	left:34%;
+			right:34%;
+        	padding-bottom:20px;
+        }
+
+        .divdir {
+        	position:absolute;
+        	width:32%;
+        	top:5px;
+        	right:5px;
+        	padding-bottom:20px;       	
+        }
+        </style>
+</head>
+
+<body>
+	<div class='container-fluid'>
+		<div>
+			<div>
+				<h2>ABRA CADABRA</h2>
+				<table id='tab1'>
+					<tr>
+						<th>PERÍODO</th>
+						<th>VENDAS</th>
+						<th>TICKET MÉDIO</th>
+						<th>RECEITA</th>
+					</tr>
+					"+this.montaTabelaVendaAbraCadabra+"
+				</table>
+				<table id='tabrecursos1'>
+					<tr>
+						<th style='width:49%;'>RECURSO</th>
+						<th>QTD</th>
+						<th>TICKET MÉDIO</th>
+						<th>RECEITA BRUTA</th>
+					</tr>
+					"+this.montaTabelaRecursosaAbraCadabra+"
+				</table>
+			</div>
+			<div>
+				<h2 class='divmeio'>ABRA CASA</h2>
+					<table id='tab2' >
+					<tr>
+						<th class='thcasa'>PERÍODO</th>
+						<th class='thcasa'>VENDAS</th>
+						<th class='thcasa'>TICKET MÉDIO</th>
+						<th class='thcasa'>RECEITA</th>
+					</tr>
+					"+this.montaTabelaVendaAbraCasa+"
+				</table>
+				<table id='tabrecursos2'>
+					<tr>
+						<th class='thcasa' style='width:49%;'>RECURSO</th>
+						<th class='thcasa'>QTD</th>
+						<th class='thcasa'>TICKET MÉDIO</th>
+						<th class='thcasa'>RECEITA BRUTA</th>
+					</tr>
+					"+this.montaTabelaRecursosaAbraCasa+"
+				</table>
+			</div>
+			<div>
+				<h2 class='divdir'>MARKET PLACE</h2>
+					<table id='tab3' >
+					<tr>
+						<th class='thcadabra'>PERÍODO</th>
+						<th class='thcadabra'>VENDAS</th>
+						<th class='thcadabra'>TICKET MÉDIO</th>
+						<th class='thcadabra'>RECEITA</th>
+					</tr>
+					"+this.montaTabelaVendaAbraMais+"
+				</table>
+				<table id='tabrecursos3'>
+					<tr>
+						<th class='thmais' style='width:45%;'>RECURSO</th>
+						<th class='thmais'>QTD</th>
+						<th class='thmais'>TICKET MÉDIO</th>
+						<th class='thmais'>RECEITA BRUTA</th>
+					</tr>
+					"+this.montaTabelaRecursosaAbraMais+"
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+    ";
+
+})
+
+this.interaction("Principal", function (){
+    this.visibleActions = [ "Atualizar"];
+
+    this.write(this.paginaAdmin);
+
+    this.botao.timer.interval = 120000;
+    this.botao.timer.enabled  = true;
+});
+
+this.botao = this.action( "Atualizar", function ( action ) {
+    var act = action.process;
+    var actp = action.parent;
+    act.montaTabelaVendaAbraMais = "";
+    act.montaTabelaVendaAbraCasa = "";
+    act.montaTabelaRecursosaAbraMais = "";
+    act.montaTabelaRecursosaAbraCasa = "";
+    act.status = "Atualizando informações de venda da VTEX..."
+    action.process.setNextInteraction( "run" )
+});
+
+this.buscaVendasVtexAbraMais = function buscaVendasVtexAbraMais(pagina){
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            //myFunction(myArr);
+        }
+    };
+
+    this.addZero = function addZero(numero){
+        var corrigido = "";
+        if(numero <= 9){
+            corrigido = "0"+numero;
+        }else{
+            corrigido = numero;
+        }
+        return corrigido;
+    }
+
+    var data = this.data;
+    var dataFim = this.dataFim;
+
+    data = data.getFullYear()+"-"+this.addZero(data.getMonth()+1)+"-"+this.addZero(data.getDate())
+    dataFim = dataFim.getFullYear()+"-"+this.addZero(dataFim.getMonth()+1)+"-"+this.addZero(dataFim.getDate())
+
+    var url = "https://abramais.myvtex.com/api/oms/pvt/orders/?orderBy=creationDate,desc&f_creationDate=creationDate:%5B"+data+"T03:00:00.000Z%20TO%20"+dataFim+"T02:59:59.999Z%5D&utc=-0200&per_page=100&page="+pagina;
+
+    xhr.open("GET", url);
+    xhr.setRequestHeader("X-VTEX-API-AppKey", "vtexappkey-abramais-NJFRFU")
+    xhr.setRequestHeader("X-VTEX-API-AppToken", "DNIRZLTQJHYUDUGLXNKRCXHKTVVEWXJPSPWTVSTWGFJWOINDTJIBIACFFXXEPPUMYJCOYMPETOLWNLWKHRLNOHHRMQNXUPGRLXXFGYFGTDITPGSUAMWYDGXRBLCIZSKE")
+    xhr.send();
+
+    msg = xhr.responseText
+    var obj = JSON.parse(msg);
+    return obj;
+}
+
+this.buscaVendasVtexAbraCasa = function buscaVendasVtexAbraCasa(pagina){
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            //myFunction(myArr);
+        }
+    };
+
+    this.addZero = function addZero(numero){
+        var corrigido = "";
+        if(numero <= 9){
+            corrigido = "0"+numero;
+        }else{
+            corrigido = numero;
+        }
+        return corrigido;
+    }
+
+    var data = this.data;
+    var dataFim = this.dataFim;
+
+    data = data.getFullYear()+"-"+this.addZero(data.getMonth()+1)+"-"+this.addZero(data.getDate())
+    dataFim = dataFim.getFullYear()+"-"+this.addZero(dataFim.getMonth()+1)+"-"+this.addZero(dataFim.getDate())
+
+    var url = "https://abracasa.myvtex.com/api/oms/pvt/orders/?orderBy=creationDate,desc&f_creationDate=creationDate:%5B"+data+"T03:00:00.000Z%20TO%20"+dataFim+"T02:59:59.999Z%5D&utc=-0200&per_page=100&page="+pagina;
+
+    xhr.open("GET", url);
+    xhr.setRequestHeader("X-VTEX-API-AppKey", "vtexappkey-abracasa-ALPXOA")
+    xhr.setRequestHeader("X-VTEX-API-AppToken", "GPYPEPWLVPLINMRINWUNQFZBTWUZQVUUUJHAQUHEIQTIJCOIRRWKCMHBQWVHVXUZUQNDFQRTOQFZLQRRHLHZZKSIBGKUYZIKWUNTOLDAZCWMHHPZFDAJPUAKYFBZGXUO")
+
+    xhr.send();
+    msg = xhr.responseText
+
+    var obj = JSON.parse(msg);
+
+    return obj;
+}
+
+this.retornaItemPedido = function retornaItemPedido(loja,orderIdVtex){
+    var xhr = new XMLHttpRequest();
+    var statusRetorno = "";
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            //myFunction(myArr);
+        }
+    };
+
+    if(loja == "mais" /* -1895832769 Estab ABM IMS */ || loja == "cadabra" /* -1895833694 Estab ABR INT */){
+        var url = "https://abramais.myvtex.com/api/oms/pvt/orders/"+orderIdVtex
+        xhr.open("GET", url);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.setRequestHeader("X-VTEX-API-AppKey", "vtexappkey-abramais-NJFRFU")
+        xhr.setRequestHeader("X-VTEX-API-AppToken", "DNIRZLTQJHYUDUGLXNKRCXHKTVVEWXJPSPWTVSTWGFJWOINDTJIBIACFFXXEPPUMYJCOYMPETOLWNLWKHRLNOHHRMQNXUPGRLXXFGYFGTDITPGSUAMWYDGXRBLCIZSKE")
+    }else{
+        if(loja == "casa" /* -1895832771 Estab ABC ICS Zeni */){
+            var url = "https://abracasa.myvtex.com/api/oms/pvt/orders/"+orderIdVtex
+            xhr.open("GET", url);
+            xhr.setRequestHeader("X-VTEX-API-AppKey", "vtexappkey-abracasa-ALPXOA")
+            xhr.setRequestHeader("X-VTEX-API-AppToken", "GPYPEPWLVPLINMRINWUNQFZBTWUZQVUUUJHAQUHEIQTIJCOIRRWKCMHBQWVHVXUZUQNDFQRTOQFZLQRRHLHZZKSIBGKUYZIKWUNTOLDAZCWMHHPZFDAJPUAKYFBZGXUO")
+        }else{
+            statusRetorno =  " Loja não cadastrada. Não há parâmetros para a loja virtual informada...";
+        }
+    }
+    xhr.send();
+
+    msg = xhr.responseText
+
+    var obj = JSON.parse(msg);
+
+    if(loja == "mais"){
+        for(var indice = 0; indice < obj.items.length; indice++){
+            this.recursosAbraMais.append();
+            this.recursosAbraMais.codigo     = obj.items[indice].refId;
+            this.recursosAbraMais.nome       = this.removeCaracterEspecial(obj.items[indice].name);
+            this.recursosAbraMais.quantidade = obj.items[indice].quantity;
+            this.recursosAbraMais.preco      = this.converte(obj.items[indice].sellingPrice * obj.items[indice].quantity);
+            this.recursosAbraMais.post();
+        }
+    }
+    if(loja == "cadabra"){
+        for(var indice = 0; indice < obj.items.length; indice++){
+            this.recursosAbraCadabra.append();
+            this.recursosAbraCadabra.codigo     = obj.items[indice].refId;
+            this.recursosAbraCadabra.nome       = this.removeCaracterEspecial(obj.items[indice].name);
+            this.recursosAbraCadabra.quantidade = obj.items[indice].quantity;
+            this.recursosAbraCadabra.preco      = this.converte(obj.items[indice].sellingPrice * obj.items[indice].quantity);
+            this.recursosAbraCadabra.post();
+        }
+    }
+    if(loja == "casa"){
+        for(var indice = 0; indice < obj.items.length; indice++){
+            this.recursosAbraCasa.append();
+            this.recursosAbraCasa.codigo     = obj.items[indice].refId;
+            this.recursosAbraCasa.nome       = this.removeCaracterEspecial(obj.items[indice].name);
+            this.recursosAbraCasa.quantidade = obj.items[indice].quantity;
+            this.recursosAbraCasa.preco      = this.converte(obj.items[indice].sellingPrice * obj.items[indice].quantity);
+            this.recursosAbraCasa.post();
+        }
+    }
+}
+
+this.converte = function converte(num) {
+    num = num+"";
+    num = num.substring(0, num.length-2) +","+ num.substring(num.length-2, num.length);
+    num = Number(num)
+    return num
+}
+
+this.converteMonetario = function converteMonetario(num) {
+    var p = num.toFixed(2).split(".");
+    return p[0].split("").reverse().reduce(function(acc, num, i, orig) {
+        return  num=="-" ? acc : num + (i && !(i % 3) ? "." : "") + acc;
+    }, "") + "," + p[1];
+}
+
+this.infoVendas = function infoVendas(){
+
+    var objVenda = { qtdTotalVendaAbraCadabra: 0,
+                     totalVendaAbraCadabra: 0,
+                     qtdTotalVendaAbraMais: 0,
+                     totalVendaAbraMais: 0,
+                     qtdTotalVendaAbraCasa: 0,
+                     totalVendaAbraCasa: 0};
+
+    this.recursosAbraCadabra.empty();
+    this.recursosAbraMais.empty();
+    this.recursosAbraCasa.empty();
+
+    var pagina = 1;
+    var continueLendo = true;
+    var obj = "";
+
+    while(continueLendo){
+        obj = this.buscaVendasVtexAbraMais(pagina);
+
+        if(obj.list.length == 0){
+            continueLendo = false;
+        }else{
+            for(var indicePedido = 0; indicePedido < obj.list.length; indicePedido++){
+                if(obj.list[indicePedido].salesChannel != 1){
+                    this.retornaItemPedido("mais",obj.list[indicePedido].orderId);
+                    objVenda.totalVendaAbraMais += Number(this.converte(obj.list[indicePedido].totalValue));
+                    objVenda.qtdTotalVendaAbraMais ++;
+                }else{
+                    this.retornaItemPedido("cadabra",obj.list[indicePedido].orderId);
+                    objVenda.totalVendaAbraCadabra += Number(this.converte(obj.list[indicePedido].totalValue));
+                    objVenda.qtdTotalVendaAbraCadabra++;
+                }
+            }
+            //objVenda.qtdTotalVendaAbraMais += obj.list.length;
+            obj = "";
+            pagina++;
+        }
+    }
+
+    pagina = 1;
+    continueLendo = true;
+
+    while(continueLendo){
+        objCasa = this.buscaVendasVtexAbraCasa(pagina);
+
+        if(objCasa.list.length == 0){
+            continueLendo = false;
+        }else{
+            for(var indicePedido = 0; indicePedido < objCasa.list.length; indicePedido++){
+                this.retornaItemPedido("casa",objCasa.list[indicePedido].orderId);
+                objVenda.totalVendaAbraCasa += Number(this.converte(objCasa.list[indicePedido].totalValue));
+            }
+            objVenda.qtdTotalVendaAbraCasa += objCasa.list.length;
+            objCasa = "";
+            pagina++;
+        }
+    }
+    return objVenda;
+}
+
+this.montaGradeVtex = function montaGradeVtex(tela){
+
+    var grid = this.grid( "gridVtex")
+        grid.hasFormView = true
+        grid.hasTableView = false
+        grid.title = "Admin Vtex"
+
+        grid.onDefineFields.set( function ( grid ){
+            var fld = grid.field("image_", "memo")
+            fld.label = "";
+            fld.controlType = "none"
+            fld.width = 160
+            fld.help = "Mostra os valores de venda na VTEX."
+            fld.onCalculate.set( function ( fld ){
+                return tela
+            })
+        })
+}
+
+this.removeCaracterEspecial = function removeCaracterEspecial(str){
+    codErrado  = ["Ã§","Ã ","Ã¡","Ã¢","Ã£","Ã©","Ãª","Ã","Ã³","Ã´","Ãµ","Ãº"];
+    codCorreto = ["ç" ,'à' ,'á' ,'â' ,'ã' ,'é' ,'ê' ,'í','ó' ,'ô' ,'õ' ,'ú'];
+
+    novastr = str.replace("Ã§","ç");
+    novastr = novastr.replace("Ã¡",'á');
+    novastr = novastr.replace("Ã¢",'â');
+    novastr = novastr.replace("Ã£",'ã');
+    novastr = novastr.replace("Ã©",'é');
+    novastr = novastr.replace("Ãª",'ê');
+    novastr = novastr.replace("Ã ",'í');
+    novastr = novastr.replace("Ã³",'ó');
+    novastr = novastr.replace("Ã´",'ô');
+    novastr = novastr.replace("Ãµ",'õ');
+    novastr = novastr.replace("Ãº",'ú');
+
+    return novastr;
+}

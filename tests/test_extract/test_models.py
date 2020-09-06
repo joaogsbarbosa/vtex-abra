@@ -52,8 +52,19 @@ class ExtratorTeste(unittest.TestCase):
         self.assertEqual(pagina, valor_esperado)
 
 
-class SeletorTeste:
-    pass
+class SeletorTeste(unittest.TestCase):
+
+    def test_get_order(self):
+        from .exemplo_de_respostas import exemplo_get_order
+        seletor = Seletor(exemplo_get_order)
+        filtrado = seletor.get_order()
+        self.assertEqual(filtrado[0], exemplo_get_order)
+
+    def test_list_orders(self):
+        from .exemplo_de_respostas import exemplo_list_orders
+        seletor = Seletor(exemplo_list_orders)
+        filtrado = seletor.get_order()
+        self.assertEqual(filtrado[0], exemplo_list_orders)
 
 
 if __name__ == '__main__':

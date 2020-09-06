@@ -13,6 +13,7 @@ class Extrator:
 
     def __iter__(self):
         """Iteração é apenas usada quando há paginação"""
+
         self.pagina_atual = 1
         return self
 
@@ -43,13 +44,13 @@ class Seletor:
     def get_order(self):
         """VTEX API - Orders -> Get Order"""
 
-        path = '*'
+        path = '$'
         jsonpath_expr = parse(path)
         return [match.value for match in jsonpath_expr.find(self.json)]
 
     def list_orders(self):
         """VTEX API - Orders -> List Orders"""
 
-        path = '*'
+        path = '$'
         jsonpath_expr = parse(path)
         return [match.value for match in jsonpath_expr.find(self.json)]

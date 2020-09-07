@@ -1,5 +1,4 @@
 from typing import Union
-
 import requests
 from jsonpath_rw import jsonpath, parse
 
@@ -41,16 +40,8 @@ class Seletor:
     def __init__(self, json):
         self.json = json
 
-    def get_order(self):
-        """VTEX API - Orders -> Get Order"""
+    def filtrar_ids(self):
+        pass
 
-        path = '$'
-        jsonpath_expr = parse(path)
-        return [match.value for match in jsonpath_expr.find(self.json)]
-
-    def list_orders(self):
-        """VTEX API - Orders -> List Orders"""
-
-        path = '$'
-        jsonpath_expr = parse(path)
-        return [match.value for match in jsonpath_expr.find(self.json)]
+    def filtrar_ids_cadabra_mais(self):
+        pass

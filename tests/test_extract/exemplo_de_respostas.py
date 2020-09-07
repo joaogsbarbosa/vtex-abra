@@ -778,7 +778,7 @@ exemplo_list_orders = {
             "statusDescription": "Pronto para o manuseio",
             "marketPlaceOrderId": "876733475998-01",
             "sequence": "502531",
-            "salesChannel": "1",
+            "salesChannel": "0",
             "affiliateId": "SCP",
             "origin": "Fulfillment",
             "workflowInErrorState": False,

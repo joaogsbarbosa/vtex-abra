@@ -1,5 +1,7 @@
 import unittest
 from abrapi.extract.models import Extrator, Seletor
+from .exemplo_de_respostas import exemplo_get_order
+from .exemplo_de_respostas import exemplo_list_orders
 
 
 class ExtratorTeste(unittest.TestCase):
@@ -54,17 +56,24 @@ class ExtratorTeste(unittest.TestCase):
 
 class SeletorTeste(unittest.TestCase):
 
-    def test_get_order(self):
-        from .exemplo_de_respostas import exemplo_get_order
-        seletor = Seletor(exemplo_get_order)
-        filtrado = seletor.get_order()
-        self.assertEqual(filtrado[0], exemplo_get_order)
-
-    def test_list_orders(self):
-        from .exemplo_de_respostas import exemplo_list_orders
+    def test_filtrar_ids(self):
         seletor = Seletor(exemplo_list_orders)
-        filtrado = seletor.get_order()
-        self.assertEqual(filtrado[0], exemplo_list_orders)
+        filtrado = seletor.filtrar_ids()
+        valor_esperado = ['v502559llux-01', 'v502556llux-01', 'v502553llux-01', 'v502550llux-01', 'v502547llux-01',
+                          'v502544llux-01', 'v502541llux-01', 'v502538llux-01', 'SCP-880102018018-01',
+                          'SCP-880091692043-01', 'SCP-880091058221-01', 'SCP-880090643370-01',
+                          'SCP-880090622238-01', 'MNC-877730530419-01', 'SCP-876733475998-01']
+        self.assertEqual(filtrado, valor_esperado)
+
+    def test_filtrar_ids_cadabra_mais(self):
+        seletor = Seletor(exemplo_list_orders)
+        filtrado = seletor.filtrar_ids_cadabra_mais()
+        valor_esperado = (['v502559llux-01', 'v502556llux-01', 'v502553llux-01', 'v502550llux-01', 'v502547llux-01',
+                           'v502544llux-01', 'v502541llux-01', 'v502538llux-01', 'SCP-880102018018-01',
+                           'SCP-880091692043-01', 'SCP-880091058221-01', 'SCP-880090643370-01',
+                           'SCP-880090622238-01', 'MNC-877730530419-01'], ['SCP-876733475998-01'])
+        self.assertEqual(filtrado, valor_esperado)
+
 
 
 if __name__ == '__main__':

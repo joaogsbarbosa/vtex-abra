@@ -2,7 +2,7 @@
     Pacote com a finalidade de extrair e filtrar os arquivos de uma fonte de dados
 """
 
-from .models import Extrator, Seletor
+from .models import Extrator, ListOrdersExtrator, Seletor
 
 
 def resgatar_pedidos(data_inicio, data_fim):
@@ -33,7 +33,7 @@ def resgatar_pedidos(data_inicio, data_fim):
     # Abra mais
 
     # pegar todos os pedidos da api de list orders
-    extrator_list_mais = Extrator(url_list_orders_mais, headers_mais)
+    extrator_list_mais = ListOrdersExtrator(url_list_orders_mais, headers_mais)
     pedidos_mais = [pedidos_mais for pedidos_mais in extrator_list_mais]
 
     # filtrar os ids dos pedidos (cadabra e mais)
@@ -48,7 +48,7 @@ def resgatar_pedidos(data_inicio, data_fim):
     # Abra Casa
 
     # pegar todos os pedidos da api de list orders
-    extrator_list_casa = Extrator(url_list_orders_casa, headers_casa)
+    extrator_list_casa = ListOrdersExtrator(url_list_orders_casa, headers_casa)
     pedidos_casa = [pedidos_casa for pedidos_casa in extrator_list_casa]
 
     # filtrar os ids dos pedidos (casa)

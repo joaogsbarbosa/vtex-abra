@@ -1,4 +1,24 @@
-exemplo_get_order = {
+typicode_posts_1 = {
+            "id": 1,
+            "title": "Post 1"
+}
+
+typicode_posts = [
+        {
+            "id": 1,
+            "title": "Post 1"
+        },
+        {
+            "id": 2,
+            "title": "Post 2"
+        },
+        {
+            "id": 3,
+            "title": "Post 3"
+        }
+]
+
+get_order = {
     "emailTracked": "a27499cad31f42b7a771ae34f57c8358@ct.vtex.com.br",
     "approvedBy": None,
     "cancelledBy": None,
@@ -371,9 +391,7 @@ exemplo_get_order = {
     "invoicedDate": None
 }
 
-exemplo_get_order_filtrado = {}
-
-exemplo_list_orders = {
+list_orders_uma_pagina = [{
     "list": [
         {
             "orderId": "v502559llux-01",
@@ -432,281 +450,62 @@ exemplo_list_orders = {
             "currencyCode": "BRL"
         },
         {
-            "orderId": "v502553llux-01",
-            "creationDate": "2019-01-24T12:35:19.0000000+00:00",
-            "clientName": "test test",
-            "items": None,
-            "totalValue": 10150,
-            "paymentNames": "Mastercard",
-            "status": "ready-for-handling",
-            "statusDescription": "Pronto para o manuseio",
-            "marketPlaceOrderId": None,
-            "sequence": "502554",
-            "salesChannel": "1",
-            "affiliateId": "",
-            "origin": "Marketplace",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": " Lux Store 96 Sua Nota Fiscal foi emitida. Referente ao Pedido #v502553llux-01 Olá, test. Estamos empacotando seu produto para provide",
-            "ShippingEstimatedDate": "2019-01-31T12:36:30.0000000+00:00",
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": "2019-01-24T12:36:01.0000000+00:00",
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "v502550llux-01",
-            "creationDate": "2019-01-23T16:39:45.0000000+00:00",
-            "clientName": "test test",
-            "items": None,
-            "totalValue": 10150,
-            "paymentNames": "Mastercard",
-            "status": "ready-for-handling",
-            "statusDescription": "Pronto para o manuseio",
-            "marketPlaceOrderId": None,
-            "sequence": "502551",
-            "salesChannel": "1",
-            "affiliateId": "",
-            "origin": "Marketplace",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": " Lux Store 96 Seu pagamento foi aprovado. Referente ao Pedido #v502550llux-01 Olá, test. Estamos providenciando a emissão da Nota Fisc",
-            "ShippingEstimatedDate": "2019-01-30T16:40:55.0000000+00:00",
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": "2019-01-23T16:40:27.0000000+00:00",
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "v502547llux-01",
-            "creationDate": "2019-01-23T16:34:20.0000000+00:00",
-            "clientName": "test test",
-            "items": None,
-            "totalValue": 10150,
-            "paymentNames": "Mastercard",
-            "status": "ready-for-handling",
-            "statusDescription": "Pronto para o manuseio",
-            "marketPlaceOrderId": None,
-            "sequence": "502548",
-            "salesChannel": "1",
-            "affiliateId": "",
-            "origin": "Marketplace",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": " Lux Store 96 Seu pagamento foi aprovado. Referente ao Pedido #v502547llux-01 Olá, test. Estamos providenciando a emissão da Nota Fisc",
-            "ShippingEstimatedDate": "2019-01-30T16:35:30.0000000+00:00",
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": "2019-01-23T16:35:04.0000000+00:00",
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "v502544llux-01",
-            "creationDate": "2018-12-28T18:15:28.0000000+00:00",
-            "clientName": "test test",
-            "items": None,
-            "totalValue": 8990,
-            "paymentNames": "Boleto Bancário",
-            "status": "canceled",
-            "statusDescription": "Cancelado",
-            "marketPlaceOrderId": None,
-            "sequence": "502544",
-            "salesChannel": "1",
-            "affiliateId": "",
-            "origin": "Marketplace",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": " Lux Store 96 Seu pedido foi cancelado. Referente ao Pedido #v502544llux-01 Resumo Itens R$ 89,90 Total R$ 89,90 Produto Alavanca De M",
-            "ShippingEstimatedDate": None,
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": None,
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "v502541llux-01",
-            "creationDate": "2018-12-18T18:48:17.0000000+00:00",
-            "clientName": "Douglas Rodrigues",
-            "items": None,
-            "totalValue": 3290,
-            "paymentNames": "Boleto Bancário",
-            "status": "canceled",
-            "statusDescription": "Cancelado",
-            "marketPlaceOrderId": None,
-            "sequence": "502541",
-            "salesChannel": "1",
-            "affiliateId": "",
-            "origin": "Marketplace",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": " Lux Store 96 Seu pedido foi cancelado. Referente ao Pedido #v502541llux-01 Resumo Itens R$ 32,90 Total R$ 32,90 Produto Bay Max L 1 u",
-            "ShippingEstimatedDate": None,
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": None,
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "v502538llux-01",
-            "creationDate": "2018-12-12T18:21:47.0000000+00:00",
-            "clientName": "test test",
-            "items": None,
-            "totalValue": 8990,
-            "paymentNames": "Mastercard",
-            "status": "ready-for-handling",
-            "statusDescription": "Pronto para o manuseio",
-            "marketPlaceOrderId": None,
-            "sequence": "502538",
-            "salesChannel": "1",
-            "affiliateId": "",
-            "origin": "Marketplace",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": " Lux Store 96 Seu pagamento foi aprovado. Referente ao Pedido #v502538llux-01 Olá, test. Estamos providenciando a emissão da Nota Fisc",
-            "ShippingEstimatedDate": "2018-12-19T18:22:26.0000000+00:00",
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": "2018-12-12T18:22:22.0000000+00:00",
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "SCP-880102018018-01",
-            "creationDate": "2018-11-30T17:34:01.0000000+00:00",
+            "orderId": "SCP-876733475998-01",
+            "creationDate": "2018-11-16T16:58:18.0000000+00:00",
             "clientName": "roberta grecco",
             "items": None,
             "totalValue": 1250,
             "paymentNames": "",
-            "status": "canceled",
-            "statusDescription": "Cancelado",
-            "marketPlaceOrderId": "880102018018-01",
-            "sequence": "502537",
-            "salesChannel": "1",
+            "status": "ready-for-handling",
+            "statusDescription": "Pronto para o manuseio",
+            "marketPlaceOrderId": "876733475998-01",
+            "sequence": "502531",
+            "salesChannel": "2",
             "affiliateId": "SCP",
             "origin": "Fulfillment",
             "workflowInErrorState": False,
             "workflowInRetry": False,
-            "lastMessageUnread": "cancelamento teste shp ",
-            "ShippingEstimatedDate": None,
+            "lastMessageUnread": None,
+            "ShippingEstimatedDate": "2018-11-23T16:58:48.0000000+00:00",
             "ShippingEstimatedDateMax": None,
             "ShippingEstimatedDateMin": None,
             "orderIsComplete": True,
             "listId": None,
             "listType": None,
-            "authorizedDate": "2018-11-30T17:34:42.0000000+00:00",
+            "authorizedDate": "2018-11-16T16:58:53.0000000+00:00",
             "callCenterOperatorName": None,
             "totalItems": 1,
             "currencyCode": "BRL"
-        },
+        }
+    ],
+}]
+
+list_orders_duas_paginas = [{
+    "list": [
         {
-            "orderId": "SCP-880091692043-01",
-            "creationDate": "2018-11-30T17:28:35.0000000+00:00",
-            "clientName": "roberta grecco",
+            "orderId": "v502559llux-01",
+            "creationDate": "2019-02-04T10:29:11.0000000+00:00",
+            "clientName": "J C",
             "items": None,
-            "totalValue": 1250,
-            "paymentNames": "",
+            "totalValue": 7453,
+            "paymentNames": "Boleto Bancário",
             "status": "invoiced",
             "statusDescription": "Faturado",
-            "marketPlaceOrderId": "880091692043-01",
-            "sequence": "502536",
+            "marketPlaceOrderId": None,
+            "sequence": "502559",
             "salesChannel": "1",
-            "affiliateId": "SCP",
-            "origin": "Fulfillment",
+            "affiliateId": "",
+            "origin": "Marketplace",
             "workflowInErrorState": False,
             "workflowInRetry": False,
-            "lastMessageUnread": None,
+            "lastMessageUnread": " Lux Store 96 Sua Nota Fiscal foi emitida. Referente ao Pedido #v502559llux-01 Olá, J. Estamos empacotando seu produto para providenci",
             "ShippingEstimatedDate": None,
             "ShippingEstimatedDateMax": None,
             "ShippingEstimatedDateMin": None,
             "orderIsComplete": True,
             "listId": None,
             "listType": None,
-            "authorizedDate": "2018-11-30T17:29:22.0000000+00:00",
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "SCP-880091058221-01",
-            "creationDate": "2018-11-30T17:18:00.0000000+00:00",
-            "clientName": "roberta grecco",
-            "items": None,
-            "totalValue": 1250,
-            "paymentNames": "",
-            "status": "canceled",
-            "statusDescription": "Cancelado",
-            "marketPlaceOrderId": "880091058221-01",
-            "sequence": "502535",
-            "salesChannel": "1",
-            "affiliateId": "SCP",
-            "origin": "Fulfillment",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": "Teste de cancelamento do ShopFácil ",
-            "ShippingEstimatedDate": None,
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": "2018-11-30T17:18:44.0000000+00:00",
-            "callCenterOperatorName": None,
-            "totalItems": 1,
-            "currencyCode": "BRL"
-        },
-        {
-            "orderId": "SCP-880090643370-01",
-            "creationDate": "2018-11-30T17:10:59.0000000+00:00",
-            "clientName": "roberta grecco",
-            "items": None,
-            "totalValue": 1250,
-            "paymentNames": "",
-            "status": "ready-for-handling",
-            "statusDescription": "Pronto para o manuseio",
-            "marketPlaceOrderId": "880090643370-01",
-            "sequence": "502534",
-            "salesChannel": "1",
-            "affiliateId": "SCP",
-            "origin": "Fulfillment",
-            "workflowInErrorState": False,
-            "workflowInRetry": False,
-            "lastMessageUnread": None,
-            "ShippingEstimatedDate": "2018-12-07T17:11:39.0000000+00:00",
-            "ShippingEstimatedDateMax": None,
-            "ShippingEstimatedDateMin": None,
-            "orderIsComplete": True,
-            "listId": None,
-            "listType": None,
-            "authorizedDate": "2018-11-30T17:11:42.0000000+00:00",
+            "authorizedDate": "2019-02-07T21:29:54.0000000+00:00",
             "callCenterOperatorName": None,
             "totalItems": 1,
             "currencyCode": "BRL"
@@ -778,7 +577,7 @@ exemplo_list_orders = {
             "statusDescription": "Pronto para o manuseio",
             "marketPlaceOrderId": "876733475998-01",
             "sequence": "502531",
-            "salesChannel": "0",
+            "salesChannel": "2",
             "affiliateId": "SCP",
             "origin": "Fulfillment",
             "workflowInErrorState": False,
@@ -796,115 +595,77 @@ exemplo_list_orders = {
             "currencyCode": "BRL"
         }
     ],
-    "facets": [],
-    "paging": {
-        "total": 84,
-        "pages": 6,
-        "currentPage": 1,
-        "perPage": 15
-    },
-    "stats": {
-        "stats": {
-            "totalValue": {
-                "Count": 84,
-                "Max": 21526180,
-                "Mean": 262672.75,
-                "Min": 1160,
-                "Missing": 0,
-                "StdDev": 2348087.3869179883,
-                "Sum": 22064511,
-                "SumOfSquares": 463417439039853,
-                "Facets": {
-                    "origin": {
-                        "Fulfillment": {
-                            "Count": 68,
-                            "Max": 11150,
-                            "Mean": 1395.5882352941176,
-                            "Min": 1250,
-                            "Missing": 0,
-                            "StdDev": 1200.5513439298484,
-                            "Sum": 94900,
-                            "SumOfSquares": 229010000,
-                            "Facets": None
-                        },
-                        "Marketplace": {
-                            "Count": 16,
-                            "Max": 21526180,
-                            "Mean": 1373100.6875,
-                            "Min": 1160,
-                            "Missing": 0,
-                            "StdDev": 5374326.141087491,
-                            "Sum": 21969611,
-                            "SumOfSquares": 463417210029853,
-                            "Facets": None
-                        }
-                    },
-                    "currencyCode": {
-                        "BRL": {
-                            "Count": 84,
-                            "Max": 21526180,
-                            "Mean": 262672.75,
-                            "Min": 1160,
-                            "Missing": 0,
-                            "StdDev": 2348087.3869179883,
-                            "Sum": 22064511,
-                            "SumOfSquares": 463417439039853,
-                            "Facets": None
-                        }
-                    }
-                }
+},
+    {
+        "list": [
+            {
+                "orderId": "SEG-PAG-01",
+                "creationDate": "2019-02-04T10:29:11.0000000+00:00",
+                "clientName": "J C",
+                "items": None,
+                "totalValue": 7453,
+                "paymentNames": "Boleto Bancário",
+                "status": "invoiced",
+                "statusDescription": "Faturado",
+                "marketPlaceOrderId": None,
+                "sequence": "502559",
+                "salesChannel": "4",
+                "affiliateId": "",
+                "origin": "Marketplace",
+                "workflowInErrorState": False,
+                "workflowInRetry": False,
+                "lastMessageUnread": " Lux Store 96 Sua Nota Fiscal foi emitida. Referente ao Pedido #v502559llux-01 Olá, J. Estamos empacotando seu produto para providenci",
+                "ShippingEstimatedDate": None,
+                "ShippingEstimatedDateMax": None,
+                "ShippingEstimatedDateMin": None,
+                "orderIsComplete": True,
+                "listId": None,
+                "listType": None,
+                "authorizedDate": "2019-02-07T21:29:54.0000000+00:00",
+                "callCenterOperatorName": None,
+                "totalItems": 1,
+                "currencyCode": "BRL"
             },
-            "totalItems": {
-                "Count": 84,
-                "Max": 89,
-                "Mean": 2.2261904761904763,
-                "Min": 1,
-                "Missing": 0,
-                "StdDev": 9.660940100525016,
-                "Sum": 187,
-                "SumOfSquares": 8163,
-                "Facets": {
-                    "origin": {
-                        "Fulfillment": {
-                            "Count": 68,
-                            "Max": 1,
-                            "Mean": 1,
-                            "Min": 1,
-                            "Missing": 0,
-                            "StdDev": 0,
-                            "Sum": 68,
-                            "SumOfSquares": 68,
-                            "Facets": None
-                        },
-                        "Marketplace": {
-                            "Count": 16,
-                            "Max": 89,
-                            "Mean": 7.4375,
-                            "Min": 1,
-                            "Missing": 0,
-                            "StdDev": 21.92401651157926,
-                            "Sum": 119,
-                            "SumOfSquares": 8095,
-                            "Facets": None
-                        }
-                    },
-                    "currencyCode": {
-                        "BRL": {
-                            "Count": 84,
-                            "Max": 89,
-                            "Mean": 2.2261904761904763,
-                            "Min": 1,
-                            "Missing": 0,
-                            "StdDev": 9.660940100525016,
-                            "Sum": 187,
-                            "SumOfSquares": 8163,
-                            "Facets": None
-                        }
-                    }
-                }
+            {
+                "orderId": "SEG-PAG-02",
+                "creationDate": "2018-11-16T16:58:18.0000000+00:00",
+                "clientName": "roberta grecco",
+                "items": None,
+                "totalValue": 1250,
+                "paymentNames": "",
+                "status": "ready-for-handling",
+                "statusDescription": "Pronto para o manuseio",
+                "marketPlaceOrderId": "876733475998-01",
+                "sequence": "502531",
+                "salesChannel": "1",
+                "affiliateId": "SCP",
+                "origin": "Fulfillment",
+                "workflowInErrorState": False,
+                "workflowInRetry": False,
+                "lastMessageUnread": None,
+                "ShippingEstimatedDate": "2018-11-23T16:58:48.0000000+00:00",
+                "ShippingEstimatedDateMax": None,
+                "ShippingEstimatedDateMin": None,
+                "orderIsComplete": True,
+                "listId": None,
+                "listType": None,
+                "authorizedDate": "2018-11-16T16:58:53.0000000+00:00",
+                "callCenterOperatorName": None,
+                "totalItems": 1,
+                "currencyCode": "BRL"
             }
-        }
+        ],
     }
-}
+]
 
-exemplo_list_orders_filtrado = {}
+list_orders_uma_pagina_ids = ['v502559llux-01', 'v502556llux-01', 'SCP-876733475998-01']
+
+# Primeiro elemento da tupla refere-se à Abra Cadabra e segundo se refere ao Marketplace (Abra Mais)
+list_orders_uma_pagina_ids_abramais = (['v502559llux-01', 'v502556llux-01'], ['SCP-876733475998-01'])
+
+list_orders_duas_paginas_ids = ['v502559llux-01', 'SCP-880090622238-01', 'MNC-877730530419-01', 'SCP-876733475998-01',
+                                'SEG-PAG-01', 'SEG-PAG-02']
+
+# Primeiro elemento da tupla refere-se à Abra Cadabra e segundo se refere ao Marketplace (Abra Mais)
+list_orders_duas_paginas_ids_abramais = (['v502559llux-01', 'SCP-880090622238-01', 'MNC-877730530419-01', 'SEG-PAG-02'],
+                                         ['SCP-876733475998-01', 'SEG-PAG-01'])

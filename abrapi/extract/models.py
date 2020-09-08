@@ -16,7 +16,9 @@ class Extrator:
         self.headers = headers
 
     def __iter__(self):
-        """Iteração é apenas usada na API List Orders"""
+        """Iteração genérica para percorrer e baixar páginas.
+        Necessita que a URL contenha {}.
+        """
 
         self.pagina_atual = 1
         return self
@@ -45,8 +47,6 @@ class ListOrdersExtrator(Extrator):
     """
 
     def baixar_pagina(self, numero=1) -> Union[dict, list, None]:
-        """Usado para baixar uma única página"""
-
         resposta = requests.get(self.url.format(numero), headers=self.headers)
         if resposta.status_code == 200 and resposta.json()["list"]:
             return resposta.json()
@@ -64,7 +64,7 @@ class Seletor:
             ids_casa += [match.value for match in jsonpath_expr.find(pagina)]
         return ids_casa
 
-    def filtrar_ids_cadabra_mais(self, pedidos: list) -> list:
+    def filtrar_ids_cadabra_mais(self, pedidos: list) -> (list, list):
         jsonpath_expr = parse('list[*]')
         ids_cadabra, ids_mais = [], []
         for pagina in pedidos:

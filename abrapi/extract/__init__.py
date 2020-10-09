@@ -3,32 +3,30 @@
 """
 
 from .models import Extrator, ListOrdersExtrator, Seletor
-
+from decouple import config
 
 def resgatar_pedidos(data_inicio, data_fim):
     url_list_orders_mais = "https://abramais.myvtex.com/api/oms/pvt/orders/?orderBy=creationDate," \
                            "desc&f_creationDate=creationDate:%5B" + str(data_inicio) + \
-                           "T03:00:00.000Z%20TO%20" + str(data_fim) + "T02:59:59" \
+                           "T00:00:00.000Z%20TO%20" + str(data_fim) + "T23:59:59" \
                                                                       ".999Z%5D&utc=-0200&per_page=100&page={}"
     url_get_order_mais = "https://abramais.myvtex.com/api/oms/pvt/orders/{}"
     headers_mais = {
-        "X-VTEX-API-AppKey": "vtexappkey-abramais-NJFRFU",
-        "X-VTEX-API-AppToken": "DNIRZLTQJHYUDUGLXNKRCXHKTVVEWXJPSPWTVSTWGFJWOINDTJIBIACFFXXEP"
-                               "PUMYJCOYMPETOLWNLWKHRLNOHHRMQNXUPGRLXXFGYFGTDITPGSUAMWYDGXRBLCIZSKE",
+        "X-VTEX-API-AppKey": config('ABRAMAIS_APPKEY'),
+        "X-VTEX-API-AppToken": config('ABRAMAIS_APPTOKEN'),
         "Content-type": "application/json"
     }
     url_list_orders_casa = "https://abracasa.myvtex.com/api/oms/pvt/orders/?orderBy=creationDate," \
                            "desc&f_creationDate=creationDate:%5B" + str(data_inicio) + \
-                           "T03:00:00.000Z%20TO%20" + str(data_fim) + "T02:59:59" \
+                           "T00:00:00.000Z%20TO%20" + str(data_fim) + "T23:59:59" \
                                                                       ".999Z%5D&utc=-0200&per_page=100&page={}"
     url_get_order_casa = "https://abracasa.myvtex.com/api/oms/pvt/orders/{}"
     headers_casa = {
-        "X-VTEX-API-AppKey": "vtexappkey-abracasa-ALPXOA",
-        "X-VTEX-API-AppToken": "GPYPEPWLVPLINMRINWUNQFZBTWUZQVUUUJHAQUHEIQTIJCOIRRWKCMHBQWVHVXUZUQ"
-                               "NDFQRTOQFZLQRRHLHZZKSIBGKUYZIKWUNTOLDAZCWMHHPZFDAJPUAKYFBZGXUO",
+        "X-VTEX-API-AppKey": config('ABRACASA_APPKEY'),
+        "X-VTEX-API-AppToken": config('ABRACASA_APPTOKEN'),
         "Content-type": "application/json"
     }
-
+    a = config('MAIS-APPTOKEN')
     # Abra mais
 
     # pegar todos os pedidos da api de list orders

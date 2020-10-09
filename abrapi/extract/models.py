@@ -54,7 +54,9 @@ class ListOrdersExtrator(Extrator):
 
 
 class Seletor:
-    """Filtra os objetos json utilizando o JSONPath"""
+    """Filtra uma lista que contém os pedidos da API List Orders.
+    Retorna uma lista contendo os ids dos pedidos.
+    """
 
     def filtrar_ids(self, pedidos: list) -> list:
         ids = []

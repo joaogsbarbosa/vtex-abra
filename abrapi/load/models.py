@@ -1,0 +1,13 @@
+import psycopg2
+
+
+class Postgres:
+    def __init__(self, host, database, user, password):
+        self.conexao = psycopg2.connect(host=host, dbname=database, user=user, password=password)
+        self.cursor = self.conexao.cursor()
+
+    def enviar_pedidos(self, pedidos):
+        for pedido in pedidos:
+            print(pedido)
+            self.cursor.execute(pedido)
+        self.conexao.commit()

@@ -160,5 +160,5 @@ def insert_query(pedidos):
                 valores = valores.replace("''", "NULL")
                 inserts.append('INSERT INTO "' + tabela +
                                '" (' + chaves + ')' + ' VALUES ' +
-                               '(' + valores + ')' + ';')
+                               '(' + valores + ')' + 'ON CONFLICT DO NOTHING;')
     return inserts

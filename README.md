@@ -15,7 +15,7 @@ Abrir _app.py_
 
 ### Configuração
 
-Você precisará fonecer as keys de autenticação dos ambientes **abracasa** e **abramais**
+Você precisará fonecer as keys de autenticação dos ambientes **abracasa** e **abramais** e os dados de acesso do banco de dados PostgreSQL.
 
 1. Criar o arquivo `settings.ini` na raiz da aplicação (mesma pasta do arquivo `app.py`)
 
@@ -27,4 +27,8 @@ ABRACASA_APPKEY=INSERIRAQUI
 ABRACASA_APPTOKEN=INSIRAAQUI
 ABRAMAIS_APPKEY=INSIRAAQUI
 ABRAMAIS_APPTOKEN=INSIRAAQUI
+DB_HOST=INSIRAAQUI
+DB_NAME=INSIRAAQUI
+DB_USER=INSIRAAQUI
+DB_PASSWORD=INSIRAAQUI
 ```

@@ -4,6 +4,7 @@ visando agrupar os dados e torná-los coerentes
 """
 from . import functions
 
+
 def transformar(pedidos):
     """Recebe uma lista de pedidos e retorna as queries necessárias para a próxima etapa
     """

@@ -4,9 +4,13 @@ ou qualquer outro lugar
 """
 
 from .models import Postgres
+from decouple import config
 
+DB_HOST = config('DB_HOST')
+DB_NAME = config('DB_NAME')
+DB_USER = config('DB_USER')
+DB_PASSWORD = config('DB_PASSWORD')
 
 def carregar_postgres(pedidos):
-    postgres = Postgres('ec2-3-229-210-93.compute-1.amazonaws.com', 'ddbgk544cdc7hh', 'sregkbahnbyhll',
-                        '0d8cb2969d6cb7ab0be12e988b978abe0a5ac681d5e27964198b7fe656ddb40b')
+    postgres = Postgres(DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
     postgres.enviar_pedidos(pedidos)

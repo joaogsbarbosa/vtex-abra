@@ -26,7 +26,7 @@ def resgatar_pedidos(data_inicio, data_fim):
         "X-VTEX-API-AppToken": config('ABRACASA_APPTOKEN'),
         "Content-type": "application/json"
     }
-    a = config('MAIS-APPTOKEN')
+
     # Abra mais
 
     # pegar todos os pedidos da api de list orders

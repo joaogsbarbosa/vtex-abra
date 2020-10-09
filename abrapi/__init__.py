@@ -10,5 +10,5 @@ def rodar():
     abramais_query = transform.transformar(pedidos_abramais)
     abracasa_query = transform.transformar(pedidos_abracasa)
 
-    load.carregar_postgres(abramais_query)
-    load.carregar_postgres(abracasa_query)
+    load.enviar_postgresql(abramais_query)
+    load.enviar_postgresql(abracasa_query)

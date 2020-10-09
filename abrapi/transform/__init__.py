@@ -2,12 +2,12 @@
 Pacote responsável por obter os dados filtrados e executar os modelos de manipulação de dados,
 visando agrupar os dados e torná-los coerentes
 """
-from . import functions
+from .functions import filtrar, para_postgresql
 
 
-def transformar(pedidos):
+def transformar_postgresql(pedidos):
     """Recebe uma lista de pedidos e retorna as queries necessárias para a próxima etapa
     """
     pedidos_filtrado = functions.filtrar(pedidos)
-    insert_query = functions.insert_query(pedidos_filtrado)
+    insert_query = para_postgresql(pedidos_filtrado)
     return insert_query

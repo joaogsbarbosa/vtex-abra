@@ -149,7 +149,7 @@ def filtrar(pedidos):
     return pedidos_novos
 
 
-def insert_query(pedidos):
+def para_postgresql(pedidos):
     inserts = []
     for pedido in pedidos:
         for tabela in pedido:

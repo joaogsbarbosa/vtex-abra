@@ -17,7 +17,7 @@ def gerar_headers(appkey, apptoken):
     }
 
 
-def filtrar_ids(self, pedidos: list) -> list:
+def filtrar_ids(pedidos: list) -> list:
     """Filtra uma lista que contém os pedidos da API List Orders.
     Retorna uma lista contendo os ids dos pedidos.
     """

@@ -51,16 +51,3 @@ class ListOrdersExtrator(Extrator):
             return resposta.json()
         else:
             return None
-
-
-class Seletor:
-    """Filtra uma lista que contém os pedidos da API List Orders.
-    Retorna uma lista contendo os ids dos pedidos.
-    """
-
-    def filtrar_ids(self, pedidos: list) -> list:
-        ids = []
-        for pagina in pedidos:
-            for lista in pagina["list"]:
-                ids.append(lista["orderId"])
-        return ids

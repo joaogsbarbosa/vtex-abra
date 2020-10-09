@@ -2,9 +2,9 @@
     Pacote com a finalidade de extrair e filtrar os arquivos de uma fonte de dados
 """
 
-from .models import Extrator, ListOrdersExtrator, Seletor
+from .models import Extrator, ListOrdersExtrator
 from decouple import config
-from .functions import gerar_get_order, gerar_list_orders, gerar_headers
+from .functions import gerar_get_order, gerar_list_orders, gerar_headers, filtrar_ids
 
 
 ABRAMAIS_APPKEY = config('ABRAMAIS_APPKEY')
@@ -31,7 +31,7 @@ def resgatar_pedidos(data_inicio, data_fim):
     pedidos_abramais = [pedidos for pedidos in abramais_list_extrator]
 
     # Filtrar os ids dos pedidos
-    ids_abramais = Seletor().filtrar_ids(pedidos_abramais)
+    ids_abramais = filtrar_ids(pedidos_abramais)
 
     # Pegar os pedidos na api get orders
     abramais_get_extrator = Extrator(abramais_get, abramais_headers)
@@ -44,7 +44,7 @@ def resgatar_pedidos(data_inicio, data_fim):
     pedidos_abracasa = [pedidos for pedidos in abracasa_list_extrator]
 
     # Filtrar os ids dos pedidos
-    ids_abracasa = Seletor().filtrar_ids(pedidos_abracasa)
+    ids_abracasa = filtrar_ids(pedidos_abracasa)
 
     # Pegar os pedidos da api get orders
     abracasa_get_extrator = Extrator(abracasa_get, abracasa_headers)

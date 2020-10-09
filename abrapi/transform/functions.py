@@ -156,9 +156,9 @@ def insert_query(pedidos):
         for tabela in pedido:
             for linha in pedido[tabela]:
                 chaves = ', '.join(map(str, linha.keys()))
-                valores = "'" + "','".join(map(str, linha.values())) + "'"
-                valores = valores.replace("''", "NULL")
+                linha_values = [str(valor).replace("'", "''") for valor in linha.values()]
+                valores = "'" + "','".join(linha_values) + "'"
                 inserts.append('INSERT INTO "' + tabela +
                                '" (' + chaves + ')' + ' VALUES ' +
-                               '(' + valores + ')' + 'ON CONFLICT DO NOTHING;')
+                               '(' + valores + ')' + ' ON CONFLICT DO NOTHING;')
     return inserts

@@ -1,6 +1,5 @@
 from typing import Union
 import requests
-from jsonpath_rw import jsonpath, parse
 
 
 class Extrator:
@@ -57,21 +56,9 @@ class ListOrdersExtrator(Extrator):
 class Seletor:
     """Filtra os objetos json utilizando o JSONPath"""
 
-    def filtrar_ids_casa(self, pedidos: list) -> list:
-        jsonpath_expr = parse('list[*].orderId')
-        ids_casa = []
+    def filtrar_ids(self, pedidos: list) -> list:
+        ids = []
         for pagina in pedidos:
-            ids_casa += [match.value for match in jsonpath_expr.find(pagina)]
-        return ids_casa
-
-    def filtrar_ids_cadabra_mais(self, pedidos: list) -> (list, list):
-        jsonpath_expr = parse('list[*]')
-        ids_cadabra, ids_mais = [], []
-        for pagina in pedidos:
-            pedidos = [match.value for match in jsonpath_expr.find(pagina)]
-            for pedido in pedidos:
-                if pedido["salesChannel"] == "1":
-                    ids_cadabra.append(pedido["orderId"])
-                else:
-                    ids_mais.append(pedido["orderId"])
-        return ids_cadabra, ids_mais
+            for lista in pagina["list"]:
+                ids.append(lista["orderId"])
+        return ids

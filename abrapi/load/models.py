@@ -8,6 +8,5 @@ class Postgres:
 
     def enviar_pedidos(self, pedidos):
         for pedido in pedidos:
-            print(pedido)
             self.cursor.execute(pedido)
         self.conexao.commit()

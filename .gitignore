@@ -171,3 +171,6 @@ dmypy.json
 # Pycharm
 .idea/
 .idea/*
+
+# App
+settings.ini

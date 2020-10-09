@@ -6,6 +6,12 @@ from .models import Extrator, ListOrdersExtrator, Seletor
 from decouple import config
 
 
+ABRAMAIS_APPKEY = config('ABRAMAIS_APPKEY')
+ABRAMAIS_APPTOKEN = config('ABRAMAIS_APPTOKEN')
+ABRACASA_APPKEY = config('ABRACASA_APPKEY')
+ABRACASA_APPTOKEN = config('ABRACASA_APPTOKEN')
+
+
 def resgatar_pedidos(data_inicio, data_fim):
     url_list_orders_abramais = "https://abramais.myvtex.com/api/oms/pvt/orders/?orderBy=creationDate," \
                                "desc&f_creationDate=creationDate:%5B" + str(data_inicio) + \
@@ -13,8 +19,8 @@ def resgatar_pedidos(data_inicio, data_fim):
                                                                           ".999Z%5D&utc=-0200&per_page=100&page={}"
     url_get_order_abramais = "https://abramais.myvtex.com/api/oms/pvt/orders/{}"
     headers_abramais = {
-        "X-VTEX-API-AppKey": config('ABRAMAIS_APPKEY'),
-        "X-VTEX-API-AppToken": config('ABRAMAIS_APPTOKEN'),
+        "X-VTEX-API-AppKey": ABRAMAIS_APPKEY,
+        "X-VTEX-API-AppToken": ABRAMAIS_APPTOKEN,
         "Content-type": "application/json"
     }
     url_list_orders_abracasa = "https://abracasa.myvtex.com/api/oms/pvt/orders/?orderBy=creationDate," \
@@ -23,8 +29,8 @@ def resgatar_pedidos(data_inicio, data_fim):
                                                                           ".999Z%5D&utc=-0200&per_page=100&page={}"
     url_get_order_abracasa = "https://abracasa.myvtex.com/api/oms/pvt/orders/{}"
     headers_abracasa = {
-        "X-VTEX-API-AppKey": config('ABRACASA_APPKEY'),
-        "X-VTEX-API-AppToken": config('ABRACASA_APPTOKEN'),
+        "X-VTEX-API-AppKey": ABRACASA_APPKEY,
+        "X-VTEX-API-AppToken": ABRACASA_APPTOKEN,
         "Content-type": "application/json"
     }
 

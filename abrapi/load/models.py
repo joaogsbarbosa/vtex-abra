@@ -1,7 +1,7 @@
 import psycopg2
 
 
-class Postgres:
+class Postgresql:
     def __init__(self, host, database, user, password):
         self.conexao = psycopg2.connect(host=host, dbname=database, user=user, password=password)
         self.cursor = self.conexao.cursor()

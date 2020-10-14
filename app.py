@@ -6,7 +6,6 @@ import abrapi
 def iniciar(data=datetime.now().date()):
     if isinstance(data, str):
         data = datetime.strptime(data, '%Y-%m-%d').date()
-
     try:
         while True:
             print("Resgatando pedidos da data", data.strftime("%Y-%m-%d"))
@@ -14,24 +13,22 @@ def iniciar(data=datetime.now().date()):
             if datetime.now().date() > data:
                 data += timedelta(days=1)
     except KeyboardInterrupt:
-        print('interrupted!')
+        print('Interrompido!')
 
 
 def abrir_menu():
-    print("Escolhas as opções:")
-    print("1 - resgatar pedidos a partir de hoje")
-    print("2 - resgatar pedidos a partir de uma data definida")
-    entrada = int(input())
-    if entrada == 1:
+    s = "Escolhas as opções:\n1 - resgatar pedidos a partir de hoje\n2 - resgatar pedidos a partir de uma data definida: "
+    entrada = input(s)
+    while entrada < "1" or entrada > "2":
+        entrada = input(s)
+    if entrada == "1":
         iniciar()
-    elif entrada == 2:
-        print("Digite a data inicial")
-        print("ano-mês-dia")
-        print("Ex: 2019-03-28")
-        entrada = str(input())
-        iniciar(entrada)
-    else:
-        abrir_menu()
+    elif entrada == "2":
+        entrada = input("Digite a data inicial - dd/mm/aaaa: ")
+        vdata = entrada.split("/")
+        for (i, x) in enumerate(vdata):
+            vdata[i] = x.strip()
+        iniciar(vdata[2] + "-" + vdata[1] + "-" + vdata[0])
 
 
 if __name__ == "__main__":

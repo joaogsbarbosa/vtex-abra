@@ -19,7 +19,6 @@ def filtrar(pedidos):
             "lastChange": pedido["lastChange"],
             "orderGroup": pedido["orderGroup"],
             "giftRegistryData": pedido["giftRegistryData"],
-            "marketingData": pedido["marketingData"],
             "callCenterOperatorData": pedido["callCenterOperatorData"],
             "followUpEmail": pedido["followUpEmail"],
             # "lastMessage": pedido["lastMessage"],
@@ -178,8 +177,15 @@ def para_postgresql(pedidos):
         for tabela in pedido:
             for linha in pedido[tabela]:
                 chaves = ', '.join(map(str, linha.keys()))
-                linha_values = [str(valor).replace("'", "''") for valor in linha.values()]
-                valores = "'" + "','".join(linha_values) + "'"
+                valores = []
+                for valor in linha.values():
+                    if valor is None:
+                        valor = "NULL"
+                    else:
+                        valor = str(valor).replace("'", "''")
+                        valor = "'" + valor + "'"
+                    valores.append(valor)
+                valores = ",".join(valores)
                 inserts.append('INSERT INTO "' + tabela +
                                '" (' + chaves + ')' + ' VALUES ' +
                                '(' + valores + ')' + ' ON CONFLICT DO NOTHING;')

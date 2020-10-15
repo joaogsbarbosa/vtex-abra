@@ -1,3 +1,7 @@
+from decouple import config
+import psycopg2
+
+
 def filtrar(pedidos):
     # para cada pedido, criar um dict com cada atributo sendo uma tabela diferente
     pedidos_novos = []
@@ -219,9 +223,27 @@ def filtrar(pedidos):
 
 def para_postgresql(pedidos):
     inserts = []
+
+    DB_HOST = config('DB_HOST')
+    DB_NAME = config('DB_NAME')
+    DB_USER = config('DB_USER')
+    DB_PASSWORD = config('DB_PASSWORD')
+
+    conexao = psycopg2.connect(host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD)
+    cursor = conexao.cursor()
+
     for pedido in pedidos:
         for tabela in pedido:
             for linha in pedido[tabela]:
+
+                cursor.execute("SELECT * FROM \"order\" where orderId = '" + linha["orderId"] + "' limit 1")
+                resultado = cursor.fetchone()
+                if linha["orderId"] is not None and resultado is not None:
+                    print("Já existe o pedido" + linha["orderId"] + "no banco de dados")
+                    continue
+                else:
+                    print("O pedido", linha["orderId"], "não existe no banco de dados")
+
                 chaves = ', '.join(map(str, linha.keys()))
                 valores = []
                 for valor in linha.values():

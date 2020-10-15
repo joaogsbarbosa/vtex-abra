@@ -10,3 +10,4 @@ class Postgresql:
         for pedido in pedidos:
             self.cursor.execute(pedido)
         self.conexao.commit()
+        print("Pedidos enviados ao banco!")

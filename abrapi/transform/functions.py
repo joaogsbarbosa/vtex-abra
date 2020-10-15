@@ -54,14 +54,14 @@ def filtrar(pedidos):
             "clientProfileData_isCorporate": pedido["clientProfileData"]["isCorporate"],
             "clientProfileData_userProfileId": pedido["clientProfileData"]["userProfileId"],
             "clientProfileData_customerClass": pedido["clientProfileData"]["customerClass"],
-            "marketingData_id": pedido["marketingData"]["id"],
-            "marketingData_utmSource": pedido["marketingData"]["utmSource"],
-            "marketingData_utmPartner": pedido["marketingData"]["utmPartner"],
-            "marketingData_utmMedium": pedido["marketingData"]["utmMedium"],
-            "marketingData_coupon": pedido["marketingData"]["coupon"],
-            "marketingData_utmiCampaign": pedido["marketingData"]["utmiCampaign"],
-            "marketingData_utmipage": pedido["marketingData"]["utmipage"],
-            "marketingData_utmiPart": pedido["marketingData"]["utmiPart"],
+            #"marketingData_id": pedido["marketingData"]["id"],
+            #"marketingData_utmSource": pedido["marketingData"]["utmSource"],
+            #"marketingData_utmPartner": pedido["marketingData"]["utmPartner"],
+            #"marketingData_utmMedium": pedido["marketingData"]["utmMedium"],
+            #"marketingData_coupon": pedido["marketingData"]["coupon"],
+            #"marketingData_utmiCampaign": pedido["marketingData"]["utmiCampaign"],
+            #"marketingData_utmipage": pedido["marketingData"]["utmipage"],
+            #"marketingData_utmiPart": pedido["marketingData"]["utmiPart"],
             "ratesAndBenefitsData_id": pedido["ratesAndBenefitsData"]["id"],
             "shippingData_id": pedido["shippingData"]["id"],
             "shippingData_address_addressType": pedido["shippingData"]["address"]["addressType"],
@@ -144,6 +144,21 @@ def filtrar(pedidos):
             }
             items.append(item_filtrado)
 
+        # ratesandbenefitsidentifiers = []
+        # for rate in pedido["ratesAndBenefitsData"]["rateAndBenefitsIdentifiers"]:
+        #     rate_filtrado = {
+        #         "description": rate["description"],
+        #         "featured": rate["featured"],
+        #         "id": rate["id"],
+        #         "name": rate["name"],
+        #         "additionalInfo": rate["additionalInfo"],
+        #         "matchedParameters_brandCatalogSystem": rate["matchedParameters"]["brand@CatalogSystem"],
+        #         "matchedParameters_productCatalogSystem": rate["matchedParameters"]["product@CatalogSystem"],
+        #         "matchedParameters_paymentMethodId": rate["matchedParameters"]["paymentMethodId"],
+        #         "orderId": order["orderId"],
+        #     }
+        #     ratesandbenefitsidentifiers.append(rate_filtrado)
+
         sellers = []
         for seller in pedido["sellers"]:
             seller_filtrado = {
@@ -175,6 +190,7 @@ def filtrar(pedidos):
             "items": items,
             "sellers": sellers,
             "itemsMetadata": itemsMetadata,
+            # "rateAndBenefitsIdentifiers": ratesandbenefitsidentifiers,
         }
         pedidos_novos.append(pedido_filtrado)
     return pedidos_novos

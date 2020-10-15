@@ -143,15 +143,15 @@ create table "itemsMetadata" (
   orderId varchar(255)
 );
 
-create table "rateAndBenefitsIdentifiers" (
-    description varchar(255),
-    featured varchar(255),
-    id varchar(255),
-    name varchar(255),
-    additionalInfo varchar(255),
-    matchedParameters_brandCatalogSystem varchar(255),
-    matchedParameters_productCatalogSystem varchar(255),
-    matchedParameters_paymentMethodId varchar(255),
-    orderId varchar(255)
-)
+--create table "rateAndBenefitsIdentifiers" (
+--    description varchar(255),
+--    featured varchar(255),
+--    id varchar(255),
+--    name varchar(255),
+--    additionalInfo varchar(255),
+--    matchedParameters_brandCatalogSystem varchar(255),
+--    matchedParameters_productCatalogSystem varchar(255),
+--    matchedParameters_paymentMethodId varchar(255),
+--    orderId varchar(255)
+--)
 

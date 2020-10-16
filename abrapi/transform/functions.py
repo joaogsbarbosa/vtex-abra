@@ -236,7 +236,7 @@ def para_postgresql(pedidos):
             cursor.execute("SELECT * FROM \"order\" where orderId = '" + pedido["order"][0]["orderId"] + "' limit 1")
             resultado = cursor.fetchone()
         if pedido["order"][0]["orderId"] is not None and resultado is not None:
-            print("Já existe o pedido", pedido["order"][0]["orderId"], " no banco de dados")
+            print("Já existe o pedido", pedido["order"][0]["orderId"], "no banco de dados")
             continue
         else:
             print("Convertendo o pedido", pedido["order"][0]["orderId"], "para o PostgreSQL")

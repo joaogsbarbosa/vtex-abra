@@ -1,6 +1,6 @@
 from datetime import datetime
 from datetime import timedelta
-import abrapi
+import abrapi, sys
 
 
 def iniciar(data=datetime.now().date()):
@@ -32,4 +32,6 @@ def abrir_menu():
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        iniciar(sys.argv[1])
     abrir_menu()

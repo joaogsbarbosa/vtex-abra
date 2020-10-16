@@ -13,7 +13,19 @@ $ pip install -r requirements.txt
 
 ### Uso
 
-Abrir _app.py_
+##### Com menu interativo
+
+Caso você esteja dentro de um ambiente gráfico, abrir _app.py_
+
+##### Com argumentos
+
+Método ideal para servidores, usar:
+
+`python app.py [data]`
+
+Substituir `[data]` pela data no formato **aaaa-mm-dd**
+
+Essa será a data inicial que será usada para baixar os dados
 
 ### Configuração
 

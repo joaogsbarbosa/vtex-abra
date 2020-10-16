@@ -3,7 +3,9 @@ Aplicação de extração dos dados da API da VTEX, transformação em um modelo
 
 ### Dependências
 
-Estão contidas em _requirements.txt_
+Utilizado interpretador Python versão 3.7.9
+
+Dependências estão contidas em _requirements.txt_
 
 ```python
 $ pip install -r requirements.txt

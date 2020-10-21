@@ -8,6 +8,8 @@ class Postgresql:
 
     def enviar_pedidos(self, pedidos):
         for pedido in pedidos:
-            self.cursor.execute(pedido)
+            try:
+                self.cursor.execute(pedido)
+            except:
+                print("Ocorreu um erro ao executar a query", pedido)
         self.conexao.commit()
-        print("Pedidos enviados ao banco!")

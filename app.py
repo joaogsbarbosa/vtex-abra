@@ -1,6 +1,8 @@
 from datetime import datetime
 from datetime import timedelta
-import abrapi, sys
+import abrapi
+import sys
+import time
 
 
 def iniciar(data=datetime.now().date()):
@@ -12,12 +14,14 @@ def iniciar(data=datetime.now().date()):
             abrapi.rodar(data)
             if datetime.now().date() > data:
                 data += timedelta(days=1)
+            time.sleep(900)
     except KeyboardInterrupt:
         print('Interrompido!')
 
 
 def abrir_menu():
-    s = "Escolhas as opções:\n1 - resgatar pedidos a partir de hoje\n2 - resgatar pedidos a partir de uma data definida: "
+    s = "Escolhas as opções:\n1 - resgatar pedidos a partir de hoje\n2 - resgatar pedidos a partir de uma data " \
+        "definida: "
     entrada = input(s)
     while entrada < "1" or entrada > "2":
         entrada = input(s)
@@ -34,4 +38,5 @@ def abrir_menu():
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         iniciar(sys.argv[1])
-    abrir_menu()
+    else:
+        abrir_menu()

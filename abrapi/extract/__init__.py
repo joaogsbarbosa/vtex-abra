@@ -50,4 +50,11 @@ def resgatar_pedidos(data_inicio, data_fim):
     abracasa_get_extrator = Extrator(abracasa_get, abracasa_headers)
     pedidos_abracasa = [abracasa_get_extrator.baixar_pagina(id_abracasa) for id_abracasa in ids_abracasa]
 
-    return pedidos_abramais, pedidos_abracasa
+    pedidos = []
+    pedidos.extend(pedidos_abramais)
+    pedidos.extend(pedidos_abracasa)
+
+    if pedidos:
+        return pedidos
+    else:
+        return None

@@ -1,22 +1,5 @@
-from datetime import datetime
-from datetime import timedelta
-import abrapi
+from abrapi import iniciar
 import sys
-import time
-
-
-def iniciar(data=datetime.now().date()):
-    if isinstance(data, str):
-        data = datetime.strptime(data, '%Y-%m-%d').date()
-    try:
-        while True:
-            print("Resgatando pedidos da data", data.strftime("%Y-%m-%d"))
-            abrapi.rodar(data)
-            if datetime.now().date() > data:
-                data += timedelta(days=1)
-            time.sleep(900)
-    except KeyboardInterrupt:
-        print('Interrompido!')
 
 
 def abrir_menu():

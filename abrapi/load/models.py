@@ -11,5 +11,5 @@ class Postgresql:
             try:
                 self.cursor.execute(pedido)
             except:
-                print("Ocorreu um erro ao executar a query", pedido)
+                print("[Erro] Executar a query", pedido)
         self.conexao.commit()

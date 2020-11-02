@@ -3,11 +3,9 @@ import psycopg2
 
 
 def filtrar(pedidos):
-    # para cada pedido, criar um dict com cada atributo sendo uma tabela diferente
     pedidos_novos = []
     for pedido in pedidos:
         pedido_filtrado = {}
-
         try:
             order = {
                 "orderId": pedido["orderId"],
@@ -103,7 +101,7 @@ def filtrar(pedidos):
                 "marketplace_name": pedido["marketplace"]["name"],
             }
         except:
-            print("Ocorreu um erro ao resgatar objeto order no pedido " + order["orderId"])
+            print("[Erro] Objeto order - " + order["orderId"])
             continue
         else:
             pedido_filtrado["order"] = [order]
@@ -119,7 +117,7 @@ def filtrar(pedidos):
                 }
                 totals.append(total_filtrado)
         except:
-            print("Ocorreu um erro ao resgatar objeto totals no pedido " + order["orderId"])
+            print("[Erro] Objeto totals - " + order["orderId"])
         else:
             pedido_filtrado["totals"] = totals
 
@@ -162,7 +160,7 @@ def filtrar(pedidos):
                 }
                 items.append(item_filtrado)
         except:
-            print("Ocorreu um erro ao resgatar objeto items no pedido " + order["orderId"])
+            print("[Erro] Objeto items - " + order["orderId"])
         else:
             pedido_filtrado["items"] = items
 
@@ -193,7 +191,7 @@ def filtrar(pedidos):
                 }
                 sellers.append(seller_filtrado)
         except:
-            print("Ocorreu um erro ao resgatar objeto sellers no pedido " + order["orderId"])
+            print("[Erro] Objeto sellers -" + order["orderId"])
         else:
             pedido_filtrado["sellers"] = sellers
 
@@ -212,7 +210,7 @@ def filtrar(pedidos):
                 }
                 itemsmetadata.append(itemmetadata_filtrado)
         except:
-            print("Ocorreu um erro ao resgatar objeto itemsMetaData no pedido " + order["orderId"])
+            print("[Erro] Objeto itemsMetaData - " + order["orderId"])
         else:
             pedido_filtrado["itemsMetadata"] = itemsmetadata
 
@@ -236,10 +234,10 @@ def para_postgresql(pedidos):
             cursor.execute("SELECT * FROM \"order\" where orderId = '" + pedido["order"][0]["orderId"] + "' limit 1")
             resultado = cursor.fetchone()
         if pedido["order"][0]["orderId"] is not None and resultado is not None:
-            print("Já existe o pedido", pedido["order"][0]["orderId"], "no banco de dados")
+            print("[Aviso]", pedido["order"][0]["orderId"], "já está no banco de dados!")
             continue
         else:
-            print("Convertendo o pedido", pedido["order"][0]["orderId"], "para o PostgreSQL")
+            print("Convertendo", pedido["order"][0]["orderId"], "para o PostgreSQL")
         for tabela in pedido:
             for linha in pedido[tabela]:
                 chaves = ', '.join(map(str, linha.keys()))

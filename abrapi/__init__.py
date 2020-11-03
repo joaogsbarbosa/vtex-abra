@@ -2,7 +2,7 @@ from . import extract, transform, load
 from datetime import datetime, timedelta
 
 
-def iniciar(data):
+def iniciar(data=datetime.now().date().strftime("%Y-%m-%d")):
     data = datetime.strptime(data, '%Y-%m-%d').date()
     try:
         while True:

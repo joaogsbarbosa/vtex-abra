@@ -1,5 +1,6 @@
 from . import extract, transform, load
 from datetime import datetime, timedelta
+import time
 
 
 def iniciar(data=datetime.now().date().strftime("%Y-%m-%d")):
@@ -13,6 +14,8 @@ def iniciar(data=datetime.now().date().strftime("%Y-%m-%d")):
                 load.enviar_postgresql(query)
             if datetime.now().date() > data:
                 data += timedelta(days=1)
-            # time.sleep(900)
+            else:
+                print("Aguardando 15 minutos...")
+                time.sleep(900)
     except KeyboardInterrupt:
         print('Interrompido!')

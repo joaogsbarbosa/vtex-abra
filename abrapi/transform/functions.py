@@ -101,7 +101,7 @@ def filtrar(pedidos):
                 "marketplace_name": pedido["marketplace"]["name"],
             }
         except:
-            print("[Erro] Objeto order - " + order["orderId"])
+            print("[Erro] Objeto order - " + pedido["orderId"])
             continue
         else:
             pedido_filtrado["order"] = [order]

@@ -1,19 +1,21 @@
 from . import extract, transform, load
-from datetime import datetime, timedelta
+from .models import Data
 import time
 
 
-def iniciar(data=datetime.now().date().strftime("%Y-%m-%d")):
-    data = datetime.strptime(data, '%Y-%m-%d').date()
+def iniciar(data=None):
+    """:param data: String de data com formado AAAA-MM-DD
+    """
+    data = Data(data) if data else Data()
     try:
         while True:
-            print("[Resgatando]", data.strftime("%Y-%m-%d"))
-            pedidos = extract.resgatar_pedidos(data, data)
+            print("[Resgatando]", data.selecionada)
+            pedidos = extract.resgatar_pedidos(data.selecionada, data.selecionada)
             if pedidos is not None:
                 query = transform.transformar_postgresql(pedidos)
                 load.enviar_postgresql(query)
-            if datetime.now().date() > data:
-                data += timedelta(days=1)
+            if data.hoje > data.selecionada:
+                data.passar_dia()
             else:
                 print("Aguardando 15 minutos...")
                 time.sleep(900)

@@ -17,7 +17,7 @@ def iniciar(data=None):
             if data.hoje > data.selecionada:
                 data.passar_dia()
             else:
-                print("Aguardando 15 minutos...")
-                time.sleep(900)
+                print("Aguardando 10 minutos...")
+                time.sleep(600)
     except KeyboardInterrupt:
         print('Interrompido!')

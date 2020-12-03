@@ -7,14 +7,20 @@ def iniciar(data=None):
     """:param data: String de data com formado AAAA-MM-DD
     """
     data = Data(data) if data else Data()
+
+    def etl():
+        pedidos = extract.resgatar_pedidos(data.selecionada, data.selecionada)
+        if pedidos is not None:
+            query = transform.transformar_postgresql(pedidos)
+            load.enviar_postgresql(query)
+
     try:
         while True:
-            print("[Resgatando]", data.selecionada)
-            pedidos = extract.resgatar_pedidos(data.selecionada, data.selecionada)
-            if pedidos is not None:
-                query = transform.transformar_postgresql(pedidos)
-                load.enviar_postgresql(query)
+            print("[Extraindo]", data.selecionada)
+            etl()
             if data.hoje > data.selecionada:
+                print("[Extraindo do dia anterior]", data.selecionada)
+                etl()
                 data.passar_dia()
             else:
                 print("Aguardando 10 minutos...")

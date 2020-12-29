@@ -1,5 +1,6 @@
 from typing import Union
 import requests
+import time
 
 
 class Extrator:
@@ -32,8 +33,15 @@ class Extrator:
 
     def baixar_pagina(self, numero=1) -> Union[dict, list, None]:
         """Usado para baixar uma única página"""
+        while True:
+            try:
+                resposta = requests.get(self.url.format(numero), headers=self.headers)
+            except:
+                print('Erro ao baixar:', self.url.format(numero))
+                time.sleep(60)
+            else:
+                break
 
-        resposta = requests.get(self.url.format(numero), headers=self.headers)
         if resposta.status_code == 200 and resposta.json():
             return resposta.json()
         else:
@@ -46,7 +54,14 @@ class ListOrdersExtrator(Extrator):
     """
 
     def baixar_pagina(self, numero=1) -> Union[dict, list, None]:
-        resposta = requests.get(self.url.format(numero), headers=self.headers)
+        while True:
+            try:
+                resposta = requests.get(self.url.format(numero), headers=self.headers)
+            except:
+                print('Erro ao baixar:', self.url.format(numero))
+                time.sleep(60)
+            else:
+                break
         if resposta.status_code == 200 and resposta.json()["list"]:
             return resposta.json()
         else:

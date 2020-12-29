@@ -19,8 +19,9 @@ def iniciar(data=None):
             print("[Extraindo]", data.selecionada)
             etl()
             if data.hoje > data.selecionada:
-                print("[Extraindo do dia anterior]", data.selecionada)
-                etl()
+                if data.selecionada == data.ontem:
+                    print("[Extraindo do dia anterior]", data.selecionada)
+                    etl()
                 data.passar_dia()
             else:
                 print("Aguardando 10 minutos...")

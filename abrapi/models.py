@@ -16,6 +16,10 @@ class Data:
     def hoje(self):
         return datetime.now(tz=timezone.utc).date()
 
+    @property
+    def ontem(self):
+        return datetime.now(tz=timezone.utc).date() - timedelta(days=1)
+
     def passar_dia(self):
         """Muda a data selecionada para o dia seguinte
         """

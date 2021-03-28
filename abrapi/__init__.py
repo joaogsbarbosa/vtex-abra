@@ -24,7 +24,7 @@ def iniciar(data=None):
                     etl()
                 data.passar_dia()
             else:
-                print("Aguardando 10 minutos...")
-                time.sleep(600)
+                print("Aguardando 15 minutos...")
+                time.sleep(900)
     except KeyboardInterrupt:
         print('Interrompido!')

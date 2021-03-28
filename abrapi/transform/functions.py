@@ -26,24 +26,17 @@ def filtrar(pedidos):
                 "giftRegistryData": pedido["giftRegistryData"],
                 "callCenterOperatorData": pedido["callCenterOperatorData"],
                 "followUpEmail": pedido["followUpEmail"],
-                # "lastMessage": pedido["lastMessage"],
                 "hostname": pedido["hostname"],
-                # "changesAttachment": pedido["changesAttachment"],
                 "roundingError": pedido["roundingError"],
                 "orderFormId": pedido["orderFormId"],
                 "commercialConditionData": pedido["commercialConditionData"],
                 "isCompleted": pedido["isCompleted"],
-                # "customData": pedido["customData"],
                 "allowCancellation": pedido["allowCancellation"],
                 "allowEdition": pedido["allowEdition"],
                 "isCheckedIn": pedido["isCheckedIn"],
                 "authorizedDate": pedido["authorizedDate"],
                 "invoicedDate": pedido["invoicedDate"],
                 "cancelReason": pedido["cancelReason"],
-                # "subscriptionData": pedido["subscriptionData"],
-                # "taxData": pedido["taxData"],
-                # "checkedInPickupPointId": pedido["checkedInPickupPointId"],
-                # "cancellationData": pedido["cancellationData"],
                 "clientProfileData_id": pedido["clientProfileData"]["id"],
                 "clientProfileData_email": pedido["clientProfileData"]["email"],
                 "clientProfileData_firstName": pedido["clientProfileData"]["firstName"],
@@ -59,14 +52,6 @@ def filtrar(pedidos):
                 "clientProfileData_isCorporate": pedido["clientProfileData"]["isCorporate"],
                 "clientProfileData_userProfileId": pedido["clientProfileData"]["userProfileId"],
                 "clientProfileData_customerClass": pedido["clientProfileData"]["customerClass"],
-                # "marketingData_id": pedido["marketingData"]["id"],
-                # "marketingData_utmSource": pedido["marketingData"]["utmSource"],
-                # "marketingData_utmPartner": pedido["marketingData"]["utmPartner"],
-                # "marketingData_utmMedium": pedido["marketingData"]["utmMedium"],
-                # "marketingData_coupon": pedido["marketingData"]["coupon"],
-                # "marketingData_utmiCampaign": pedido["marketingData"]["utmiCampaign"],
-                # "marketingData_utmipage": pedido["marketingData"]["utmipage"],
-                # "marketingData_utmiPart": pedido["marketingData"]["utmiPart"],
                 "ratesAndBenefitsData_id": pedido["ratesAndBenefitsData"]["id"],
                 "shippingData_id": pedido["shippingData"]["id"],
                 "shippingData_address_addressType": pedido["shippingData"]["address"]["addressType"],
@@ -102,119 +87,104 @@ def filtrar(pedidos):
             }
         except:
             print("[Erro] Objeto order - Erro")
-            continue
         else:
             pedido_filtrado["order"] = [order]
 
-        try:
-            totals = []
-            for total in pedido["totals"]:
-                total_filtrado = {
-                    "id": total["id"],
-                    "name": total["name"],
-                    "value": total["value"],
-                    "orderId": order["orderId"],
-                }
-                totals.append(total_filtrado)
-        except:
-            print("[Erro] Objeto totals - " + order["orderId"])
-        else:
-            pedido_filtrado["totals"] = totals
+            # Se não ocorrer problemas para transformar "order", então transformar os restantes
+            try:
+                totals = []
+                for total in pedido["totals"]:
+                    total_filtrado = {
+                        "id": total["id"],
+                        "name": total["name"],
+                        "value": total["value"],
+                        "orderId": order["orderId"],
+                    }
+                    totals.append(total_filtrado)
+            except:
+                print("[Erro] Objeto totals - " + order["orderId"])
+            else:
+                pedido_filtrado["totals"] = totals
 
-        try:
-            items = []
-            for item in pedido["items"]:
-                item_filtrado = {
-                    "uniqueId": item["uniqueId"],
-                    "id": item["id"],
-                    "productId": item["productId"],
-                    "ean": item["ean"],
-                    "lockId": item["lockId"],
-                    "quantity": item["quantity"],
-                    "seller": item["seller"],
-                    "name": item["name"],
-                    "refId": item["refId"],
-                    "price": item["price"],
-                    "listPrice": item["listPrice"],
-                    "manualPrice": item["manualPrice"],
-                    "sellerSku": item["sellerSku"],
-                    "priceValidUntil": item["priceValidUntil"],
-                    "commission": item["commission"],
-                    "tax": item["tax"],
-                    "preSaleDate": item["preSaleDate"],
-                    "measurementUnit": item["measurementUnit"],
-                    "unitMultiplier": item["unitMultiplier"],
-                    "sellingPrice": item["sellingPrice"],
-                    "isGift": item["isGift"],
-                    "shippingPrice": item["shippingPrice"],
-                    "rewardValue": item["rewardValue"],
-                    "freightCommission": item["freightCommission"],
-                    "priceDefinitions": item["priceDefinitions"],
-                    "taxCode": item["taxCode"],
-                    "parentItemIndex": item["parentItemIndex"],
-                    "parentAssemblyBinding": item["parentAssemblyBinding"],
-                    "callCenterOperator": item["callCenterOperator"],
-                    "serialNumbers": item["serialNumbers"],
-                    "costPrice": item["costPrice"],
-                    "orderId": order["orderId"],
-                }
-                items.append(item_filtrado)
-        except:
-            print("[Erro] Objeto items - " + order["orderId"])
-        else:
-            pedido_filtrado["items"] = items
+            try:
+                items = []
+                for item in pedido["items"]:
+                    item_filtrado = {
+                        "uniqueId": item["uniqueId"],
+                        "id": item["id"],
+                        "productId": item["productId"],
+                        "ean": item["ean"],
+                        "lockId": item["lockId"],
+                        "quantity": item["quantity"],
+                        "seller": item["seller"],
+                        "name": item["name"],
+                        "refId": item["refId"],
+                        "price": item["price"],
+                        "listPrice": item["listPrice"],
+                        "manualPrice": item["manualPrice"],
+                        "sellerSku": item["sellerSku"],
+                        "priceValidUntil": item["priceValidUntil"],
+                        "commission": item["commission"],
+                        "tax": item["tax"],
+                        "preSaleDate": item["preSaleDate"],
+                        "measurementUnit": item["measurementUnit"],
+                        "unitMultiplier": item["unitMultiplier"],
+                        "sellingPrice": item["sellingPrice"],
+                        "isGift": item["isGift"],
+                        "shippingPrice": item["shippingPrice"],
+                        "rewardValue": item["rewardValue"],
+                        "freightCommission": item["freightCommission"],
+                        "priceDefinitions": item["priceDefinitions"],
+                        "taxCode": item["taxCode"],
+                        "parentItemIndex": item["parentItemIndex"],
+                        "parentAssemblyBinding": item["parentAssemblyBinding"],
+                        "callCenterOperator": item["callCenterOperator"],
+                        "serialNumbers": item["serialNumbers"],
+                        "costPrice": item["costPrice"],
+                        "orderId": order["orderId"],
+                    }
+                    items.append(item_filtrado)
+            except:
+                print("[Erro] Objeto items - " + order["orderId"])
+            else:
+                pedido_filtrado["items"] = items
 
-        # ratesandbenefitsidentifiers = []
-        # for rate in pedido["ratesAndBenefitsData"]["rateAndBenefitsIdentifiers"]:
-        #     rate_filtrado = {
-        #         "description": rate["description"],
-        #         "featured": rate["featured"],
-        #         "id": rate["id"],
-        #         "name": rate["name"],
-        #         "additionalInfo": rate["additionalInfo"],
-        #         "matchedParameters_brandCatalogSystem": rate["matchedParameters"]["brand@CatalogSystem"],
-        #         "matchedParameters_productCatalogSystem": rate["matchedParameters"]["product@CatalogSystem"],
-        #         "matchedParameters_paymentMethodId": rate["matchedParameters"]["paymentMethodId"],
-        #         "orderId": order["orderId"],
-        #     }
-        #     ratesandbenefitsidentifiers.append(rate_filtrado)
+            try:
+                sellers = []
+                for seller in pedido["sellers"]:
+                    seller_filtrado = {
+                        "id": seller["id"],
+                        "name": seller["name"],
+                        "logo": seller["logo"],
+                        "fulfillmentEndpoint": seller["fulfillmentEndpoint"],
+                        "orderId": order["orderId"],
+                    }
+                    sellers.append(seller_filtrado)
+            except:
+                print("[Erro] Objeto sellers -" + order["orderId"])
+            else:
+                pedido_filtrado["sellers"] = sellers
 
-        try:
-            sellers = []
-            for seller in pedido["sellers"]:
-                seller_filtrado = {
-                    "id": seller["id"],
-                    "name": seller["name"],
-                    "logo": seller["logo"],
-                    "fulfillmentEndpoint": seller["fulfillmentEndpoint"],
-                    "orderId": order["orderId"],
-                }
-                sellers.append(seller_filtrado)
-        except:
-            print("[Erro] Objeto sellers -" + order["orderId"])
-        else:
-            pedido_filtrado["sellers"] = sellers
+            try:
+                itemsmetadata = []
+                for itemMetadata in pedido["itemMetadata"]["Items"]:
+                    itemmetadata_filtrado = {
+                        "Id": itemMetadata["Id"],
+                        "Seller": itemMetadata["Seller"],
+                        "Name": itemMetadata["Name"],
+                        "SkuName": itemMetadata["SkuName"],
+                        "ProductId": itemMetadata["ProductId"],
+                        "RefId": itemMetadata["RefId"],
+                        "Ean": itemMetadata["Ean"],
+                        "orderId": order["orderId"],
+                    }
+                    itemsmetadata.append(itemmetadata_filtrado)
+            except:
+                print("[Erro] Objeto itemsMetaData - " + order["orderId"])
+            else:
+                pedido_filtrado["itemsMetadata"] = itemsmetadata
 
-        try:
-            itemsmetadata = []
-            for itemMetadata in pedido["itemMetadata"]["Items"]:
-                itemmetadata_filtrado = {
-                    "Id": itemMetadata["Id"],
-                    "Seller": itemMetadata["Seller"],
-                    "Name": itemMetadata["Name"],
-                    "SkuName": itemMetadata["SkuName"],
-                    "ProductId": itemMetadata["ProductId"],
-                    "RefId": itemMetadata["RefId"],
-                    "Ean": itemMetadata["Ean"],
-                    "orderId": order["orderId"],
-                }
-                itemsmetadata.append(itemmetadata_filtrado)
-        except:
-            print("[Erro] Objeto itemsMetaData - " + order["orderId"])
-        else:
-            pedido_filtrado["itemsMetadata"] = itemsmetadata
-
-        pedidos_novos.append(pedido_filtrado)
+            pedidos_novos.append(pedido_filtrado)
 
     return pedidos_novos
 
@@ -234,7 +204,7 @@ def para_postgresql(pedidos):
             cursor.execute("SELECT * FROM \"order\" where orderId = '" + pedido["order"][0]["orderId"] + "' limit 1")
             resultado = cursor.fetchone()
         if pedido["order"][0]["orderId"] is not None and resultado is not None:
-            # print("[Aviso]", pedido["order"][0]["orderId"], "já está no banco de dados!")
+            print("[Aviso]", pedido["order"][0]["orderId"], "já está no banco de dados!")
             continue
         else:
             print("Convertendo", pedido["order"][0]["orderId"], "para o PostgreSQL")

@@ -39,20 +39,31 @@ Se estamos no dia 20/10/18, as datas selecionadas são do dia 13/10/18 até o di
 
 ### Comportamento
 
-A API que é consumida da VTEX é a [Get Order](https://developers.vtex.com/vtex-rest-api/reference/orders#getorder)
+É definido um intervalo de datas utilizando os parâmetros que foram informados no momento da execução da aplicação.
 
-Os dados são extraídos dentro do intervalo de datas que foi definido através
-dos parâmetros no momento da execução.
+Essas dadas são separadas por dia e o processo de ETL é repetido para cada dia distinto.
 
-Os dados são transformados em queries compatíveis com o banco de dados.
+A extração dos dados consiste em utilizar a [API List Orders](https://developers.vtex.com/vtex-rest-api/reference/orders#listorders)
+para buscar todos os pedidos de um determinado dia e consultar cada pedido usando a
+API [Get Order](https://developers.vtex.com/vtex-rest-api/reference/orders#getorder).
+
+
+
+Os dados são transformados em queries compatíveis com o banco de dados selecionado na seção de configuração.
+
+#### MySQL
 
 É feito um upsert no banco de dados com o seguinte procedimento:
 
-1. Verifica se o registro existe através da chave primária "orderId" da tabela "orders".
+1. Se o registro existir, atualiza os dados.
 
-1. Se o registro existir, atualiza as colunas "status" e "statusDescription" da tabela "orders".
+2. Se o registro não existir, insere o pedido em todas as tabelas.
 
-2. Se o registro não existir, faz o insert e insere o pedido em todas as tabelas.
+#### PostgreSQL
+
+É feito um insert no banco de dados.
+
+Dados duplicados são ignorados, ou seja, eles não são atualizados. 
 
 ### Configuração
 

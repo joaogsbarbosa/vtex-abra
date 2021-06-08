@@ -3,10 +3,11 @@ from .models import Data
 import time
 
 
-def iniciar(data=None):
-    """:param data: String de data com formado AAAA-MM-DD
+def iniciar(dt_inicial, dt_final):
+    """:param dt_inicial: Quantidade de dias anteriores que define o início do intervalo de datas
+       :param dt_final: Quantidade de dias anteriores que define o fim do intervalo de datas
     """
-    data = Data(data) if data else Data()
+    data = Data(dt_inicial, dt_final)
 
     def etl():
         pedidos = extract.resgatar_pedidos(data.selecionada, data.selecionada)
@@ -15,16 +16,10 @@ def iniciar(data=None):
             load.enviar_postgresql(query)
 
     try:
-        while True:
+        while data.final >= data.selecionada:
             print("[Extraindo]", data.selecionada)
             etl()
-            if data.hoje > data.selecionada:
-                if data.selecionada == data.ontem:
-                    print("[Extraindo do dia anterior]", data.selecionada)
-                    etl()
-                data.passar_dia()
-            else:
-                print("Aguardando 15 minutos...")
-                time.sleep(900)
+            data.passar_dia()
+        return "Finalizado com sucesso!"
     except KeyboardInterrupt:
-        print('Interrompido!')
+        print('Processo interrompido manualmente pelo usuário!')

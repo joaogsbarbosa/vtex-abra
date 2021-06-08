@@ -1,7 +1,3 @@
-from decouple import config
-import psycopg2
-
-
 def filtrar(pedidos):
     pedidos_novos = []
     for pedido in pedidos:
@@ -134,7 +130,6 @@ def filtrar(pedidos):
                         "shippingPrice": item["shippingPrice"],
                         "rewardValue": item["rewardValue"],
                         "freightCommission": item["freightCommission"],
-                        "priceDefinitions": item["priceDefinitions"],
                         "taxCode": item["taxCode"],
                         "parentItemIndex": item["parentItemIndex"],
                         "parentAssemblyBinding": item["parentAssemblyBinding"],
@@ -191,23 +186,7 @@ def filtrar(pedidos):
 
 def para_postgresql(pedidos):
     inserts = []
-
-    DB_HOST = config('DB_HOST')
-    DB_NAME = config('DB_NAME')
-    DB_USER = config('DB_USER')
-    DB_PASSWORD = config('DB_PASSWORD')
-
-    conexao = psycopg2.connect(host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD)
-
     for pedido in pedidos:
-        with conexao.cursor() as cursor:
-            cursor.execute("SELECT * FROM \"order\" where orderId = '" + pedido["order"][0]["orderId"] + "' limit 1")
-            resultado = cursor.fetchone()
-        if pedido["order"][0]["orderId"] is not None and resultado is not None:
-            print("[Aviso]", pedido["order"][0]["orderId"], "já está no banco de dados!")
-            continue
-        else:
-            print("Convertendo", pedido["order"][0]["orderId"], "para o PostgreSQL")
         for tabela in pedido:
             for linha in pedido[tabela]:
                 chaves = ', '.join(map(str, linha.keys()))
@@ -223,5 +202,4 @@ def para_postgresql(pedidos):
                 inserts.append('INSERT INTO "' + tabela +
                                '" (' + chaves + ')' + ' VALUES ' +
                                '(' + valores + ')' + ' ON CONFLICT DO NOTHING;')
-    conexao.close()
     return inserts

@@ -107,7 +107,6 @@ create table "items" (
     shippingPrice TEXT,
     rewardValue TEXT,
     freightCommission TEXT,
-    priceDefinitions TEXT,
     taxCode TEXT,
     parentItemIndex TEXT,
     parentAssemblyBinding TEXT,
@@ -151,15 +150,4 @@ create table "itemsMetadata" (
     foreign key (orderId) references "order"(orderId)
 );
 
---create table "rateAndBenefitsIdentifiers" (
---    description TEXT,
---    featured TEXT,
---    id TEXT,
---    name TEXT,
---    additionalInfo TEXT,
---    matchedParameters_brandCatalogSystem TEXT,
---    matchedParameters_productCatalogSystem TEXT,
---    matchedParameters_paymentMethodId TEXT,
---    orderId TEXT
---)
 

@@ -1,6 +1,5 @@
 from typing import Union
 import requests
-import time
 
 
 class Extrator:
@@ -37,8 +36,7 @@ class Extrator:
             try:
                 resposta = requests.get(self.url.format(numero), headers=self.headers)
             except:
-                print('Erro ao baixar:', self.url.format(numero))
-                time.sleep(60)
+                print('Erro ao baixar, tentando novamente:', self.url.format(numero))
             else:
                 break
 
@@ -57,9 +55,10 @@ class ListOrdersExtrator(Extrator):
         while True:
             try:
                 resposta = requests.get(self.url.format(numero), headers=self.headers)
+            except KeyboardInterrupt:
+                print('Processo interrompido manualmente pelo usuário!')
             except:
-                print('Erro ao baixar:', self.url.format(numero))
-                time.sleep(60)
+                print('Erro ao baixar, tentando novamente:', self.url.format(numero))
             else:
                 break
         if resposta.status_code == 200 and resposta.json()["list"]:

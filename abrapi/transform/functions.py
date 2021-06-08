@@ -203,3 +203,24 @@ def para_postgresql(pedidos):
                                '" (' + chaves + ')' + ' VALUES ' +
                                '(' + valores + ')' + ' ON CONFLICT DO NOTHING;')
     return inserts
+
+
+def para_mysql(pedidos):
+    inserts = []
+    for pedido in pedidos:
+        for tabela in pedido:
+            for linha in pedido[tabela]:
+                chaves = ', '.join(map(str, linha.keys()))
+                valores = []
+                for valor in linha.values():
+                    if valor is None:
+                        valor = "NULL"
+                    else:
+                        valor = str(valor).replace("'", "''")
+                        valor = "'" + valor + "'"
+                    valores.append(valor)
+                valores = ",".join(valores)
+                inserts.append('REPLACE INTO `' + tabela +
+                               '` (' + chaves + ')' + ' VALUES ' +
+                               '(' + valores + ')')
+    return inserts

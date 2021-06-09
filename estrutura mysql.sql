@@ -115,7 +115,7 @@ create table items (
     costPrice VARCHAR(200),
     orderId VARCHAR(200),
     primary key (uniqueId, orderId),
-    foreign key (orderId) references `order`(orderId)
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 create table totals (
@@ -124,7 +124,7 @@ create table totals (
     value VARCHAR(200),
     orderId VARCHAR(200),
     primary key (id, orderId),
-    foreign key (orderId) references `order`(orderId)
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 create table sellers (
@@ -134,7 +134,7 @@ create table sellers (
     fulfillmentEndpoint VARCHAR(200),
     orderId VARCHAR(200),
     primary key (id, orderId),
-    foreign key (orderId) references `order`(orderId)
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 create table itemsMetadata (
@@ -147,5 +147,5 @@ create table itemsMetadata (
     Ean VARCHAR(200),
     orderId VARCHAR(200),
     primary key (id, orderId),
-    foreign key (orderId) references `order`(orderId)
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
 );

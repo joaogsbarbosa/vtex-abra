@@ -32,13 +32,18 @@ class Extrator:
 
     def baixar_pagina(self, numero=1) -> Union[dict, list, None]:
         """Usado para baixar uma única página"""
-        while True:
+        # Tentativa de 10 vezes para baixar a página
+        for tentativa in range(10):
             try:
                 resposta = requests.get(self.url.format(numero), headers=self.headers)
             except:
                 print('Erro ao baixar, tentando novamente:', self.url.format(numero))
             else:
                 break
+        # Se todas as tentativas falharem, lança uma excessão na última tentativa
+        else:
+            print('Última tentativa de baixar o dado da VTEX...')
+            resposta = requests.get(self.url.format(numero), headers=self.headers)
 
         if resposta.status_code == 200 and resposta.json():
             return resposta.json()
@@ -52,15 +57,19 @@ class ListOrdersExtrator(Extrator):
     """
 
     def baixar_pagina(self, numero=1) -> Union[dict, list, None]:
-        while True:
+        # Tentativa de 10 vezes para baixar a página
+        for tentativa in range(10):
             try:
                 resposta = requests.get(self.url.format(numero), headers=self.headers)
-            except KeyboardInterrupt:
-                print('Processo interrompido manualmente pelo usuário!')
             except:
                 print('Erro ao baixar, tentando novamente:', self.url.format(numero))
             else:
                 break
+        # Se todas as tentativas falharem, lança uma excessão na última tentativa
+        else:
+            print('Última tentativa de baixar o dado da VTEX...')
+            resposta = requests.get(self.url.format(numero), headers=self.headers)
+
         if resposta.status_code == 200 and resposta.json()["list"]:
             return resposta.json()
         else:

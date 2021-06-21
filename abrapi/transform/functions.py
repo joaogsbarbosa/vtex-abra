@@ -81,8 +81,9 @@ def filtrar(pedidos):
                 "marketplace_isCertified": pedido["marketplace"]["isCertified"],
                 "marketplace_name": pedido["marketplace"]["name"],
             }
-        except:
+        except Exception as e:
             print("[Erro] Objeto order - Erro")
+            print("Detalhes do erro:", e)
         else:
             pedido_filtrado["order"] = [order]
 
@@ -97,8 +98,9 @@ def filtrar(pedidos):
                         "orderId": order["orderId"],
                     }
                     totals.append(total_filtrado)
-            except:
+            except Exception as e:
                 print("[Erro] Objeto totals - " + order["orderId"])
+                print("Detalhes do erro:", e)
             else:
                 pedido_filtrado["totals"] = totals
 
@@ -139,8 +141,9 @@ def filtrar(pedidos):
                         "orderId": order["orderId"],
                     }
                     items.append(item_filtrado)
-            except:
+            except Exception as e:
                 print("[Erro] Objeto items - " + order["orderId"])
+                print("Detalhes do erro:", e)
             else:
                 pedido_filtrado["items"] = items
 
@@ -155,8 +158,9 @@ def filtrar(pedidos):
                         "orderId": order["orderId"],
                     }
                     sellers.append(seller_filtrado)
-            except:
+            except Exception as e:
                 print("[Erro] Objeto sellers -" + order["orderId"])
+                print("Detalhes do erro:", e)
             else:
                 pedido_filtrado["sellers"] = sellers
 
@@ -174,8 +178,9 @@ def filtrar(pedidos):
                         "orderId": order["orderId"],
                     }
                     itemsmetadata.append(itemmetadata_filtrado)
-            except:
+            except Exception as e:
                 print("[Erro] Objeto itemsMetaData - " + order["orderId"])
+                print("Detalhes do erro:", e)
             else:
                 pedido_filtrado["itemsMetadata"] = itemsmetadata
 

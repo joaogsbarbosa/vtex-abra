@@ -80,6 +80,7 @@ def filtrar(pedidos):
                 "marketplace_baseURL": pedido["marketplace"]["baseURL"],
                 "marketplace_isCertified": pedido["marketplace"]["isCertified"],
                 "marketplace_name": pedido["marketplace"]["name"],
+                "openTextField_value": pedido["openTextField"]["value"] if pedido["openTextField"] else None,
             }
         except Exception as e:
             print("[Erro] Objeto order - Erro")
@@ -183,6 +184,26 @@ def filtrar(pedidos):
                 print("Detalhes do erro:", e)
             else:
                 pedido_filtrado["itemsMetadata"] = itemsmetadata
+
+            try:
+                paymentData_transactions_payments = []
+                for paymentData_transactions in pedido["paymentData"]["transactions"]:
+                    for payment in paymentData_transactions["payments"]:
+                        payment_filtrado = {
+                            "id": payment["id"] if payment["id"] else '',
+                            "paymentSystem": payment["paymentSystem"],
+                            "paymentSystemName": payment["paymentSystemName"],
+                            "value": payment["value"],
+                            "installments": payment["installments"],
+                            "referenceValue": payment["referenceValue"],
+                            "orderId": order["orderId"],
+                        }
+                        paymentData_transactions_payments.append(payment_filtrado)
+            except Exception as e:
+                print("[Erro] Objeto paymentData_transactions_payments - " + order["orderId"])
+                print("Detalhes do erro:", e)
+            else:
+                pedido_filtrado["paymentData_transactions_payments"] = paymentData_transactions_payments
 
             pedidos_novos.append(pedido_filtrado)
 

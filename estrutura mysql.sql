@@ -79,6 +79,7 @@ create table `order` (
     marketplace_baseURL VARCHAR(200),
     marketplace_isCertified VARCHAR(200),
     marketplace_name VARCHAR(200),
+    openTextField_value VARCHAR(200),
     primary key (orderId)
 );
 
@@ -147,5 +148,17 @@ create table itemsMetadata (
     Ean VARCHAR(200),
     orderId VARCHAR(200),
     primary key (id, orderId),
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+create table paymentData_transactions_payments (
+    id VARCHAR(200),
+    paymentSystem VARCHAR(200),
+    paymentSystemName VARCHAR(200),
+    value integer,
+    installments integer,
+    referenceValue integer,
+    orderId VARCHAR(200),
+    primary key (id, paymentSystem, orderId),
     foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
 );

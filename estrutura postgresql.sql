@@ -79,6 +79,7 @@ create table "order" (
     marketplace_baseURL TEXT,
     marketplace_isCertified TEXT,
     marketplace_name TEXT,
+    openTextField_value TEXT,
     primary key (orderId)
 );
 
@@ -150,4 +151,14 @@ create table "itemsMetadata" (
     foreign key (orderId) references "order"(orderId)
 );
 
-
+create table "paymentData_transactions_payments" (
+    id TEXT,
+    paymentSystem TEXT,
+    paymentSystemName TEXT,
+    value TEXT,
+    installments TEXT,
+    referenceValue TEXT,
+    orderId TEXT,
+    primary key (id, paymentSystem, orderId),
+    foreign key (orderId) references "order"(orderId)
+);

@@ -65,7 +65,7 @@ create table `order` (
     shippingData_address_number VARCHAR(200),
     shippingData_address_neighborhood VARCHAR(200),
     shippingData_address_complement VARCHAR(500),
-    shippingData_address_reference VARCHAR(200),
+    shippingData_address_reference VARCHAR(500),
     storePreferencesData_countryCode VARCHAR(200),
     storePreferencesData_currencyCode VARCHAR(200),
     storePreferencesData_currencyLocale VARCHAR(200),

@@ -47,10 +47,6 @@ A extração dos dados consiste em utilizar a [API List Orders](https://develope
 para buscar todos os pedidos de um determinado dia e consultar cada pedido usando a
 API [Get Order](https://developers.vtex.com/vtex-rest-api/reference/orders#getorder).
 
-
-
-Os dados são transformados em queries compatíveis com o banco de dados selecionado na seção de configuração.
-
 #### MySQL
 
 É feito um upsert no banco de dados com o seguinte procedimento:
@@ -58,12 +54,6 @@ Os dados são transformados em queries compatíveis com o banco de dados selecio
 1. Se o registro existir, atualiza os dados.
 
 2. Se o registro não existir, insere o pedido em todas as tabelas.
-
-#### PostgreSQL
-
-É feito um insert no banco de dados.
-
-Dados duplicados são ignorados, ou seja, eles não são atualizados. 
 
 ### Configuração
 
@@ -79,13 +69,8 @@ ABRACASA_APPKEY=INSERIRAQUI
 ABRACASA_APPTOKEN=INSIRAAQUI
 ABRAMAIS_APPKEY=INSIRAAQUI
 ABRAMAIS_APPTOKEN=INSIRAAQUI
-DB_DRIVER=INSIRAAQUI
 DB_HOST=INSIRAAQUI
 DB_NAME=INSIRAAQUI
 DB_USER=INSIRAAQUI
 DB_PASSWORD=INSIRAAQUI
 ```
-
-Em *DB_DRIVER*, os valores permitidos são:
-- mysql
-- postgres

@@ -210,27 +210,6 @@ def filtrar(pedidos):
     return pedidos_novos
 
 
-def para_postgresql(pedidos):
-    inserts = []
-    for pedido in pedidos:
-        for tabela in pedido:
-            for linha in pedido[tabela]:
-                chaves = ', '.join(map(str, linha.keys()))
-                valores = []
-                for valor in linha.values():
-                    if valor is None:
-                        valor = "NULL"
-                    else:
-                        valor = str(valor).replace("'", "''")
-                        valor = "'" + valor + "'"
-                    valores.append(valor)
-                valores = ",".join(valores)
-                inserts.append('INSERT INTO "' + tabela +
-                               '" (' + chaves + ')' + ' VALUES ' +
-                               '(' + valores + ')' + ' ON CONFLICT DO NOTHING;')
-    return inserts
-
-
 def para_mysql(pedidos):
     inserts = []
     for pedido in pedidos:

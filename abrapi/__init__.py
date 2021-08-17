@@ -1,6 +1,5 @@
 from . import extract, transform, load
 from .models import Data
-from decouple import config
 
 
 def iniciar(dt_inicial, dt_final):
@@ -13,16 +12,10 @@ def iniciar(dt_inicial, dt_final):
         pedidos = extract.resgatar_pedidos(data.selecionada, data.selecionada)
         # Transforma e envia ao banco apenas se existir pedido baixado
         if pedidos is not None:
-            # Driver mysql escolhido
-            if config('DB_DRIVER') == 'mysql':
-                query = transform.transformar_mysql(pedidos)
-                load.enviar_mysql(query)
-            # Driver postgresql escolhido
-            elif config('DB_DRIVER') == 'postgresql':
-                query = transform.transformar_postgresql(pedidos)
-                load.enviar_postgresql(query)
-            else:
-                raise Exception('Nenhum driver banco de dados válido foi selecionado!')
+            query = transform.transformar_mysql(pedidos)
+            load.enviar_mysql(query)
+        else:
+            raise Exception('Nenhum driver banco de dados válido foi selecionado!')
 
     try:
         while data.final >= data.selecionada:

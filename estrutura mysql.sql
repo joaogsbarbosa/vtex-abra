@@ -1,12 +1,12 @@
 create table `order` (
     orderId VARCHAR(200),
-    sequence VARCHAR(200),
-    marketplaceOrderId VARCHAR(200),
+    sequence VARCHAR(50),
+    marketplaceOrderId VARCHAR(50),
     marketplaceServicesEndpoint VARCHAR(200),
     sellerOrderId VARCHAR(200),
     origin VARCHAR(200),
     afffiliateId VARCHAR(200),
-    salesChannel VARCHAR(200),
+    salesChannel VARCHAR(50),
     merchantName VARCHAR(200),
     status VARCHAR(200),
     statusDescription VARCHAR(200),
@@ -14,7 +14,6 @@ create table `order` (
     creationDate timestamp,
     lastChange timestamp,
     orderGroup VARCHAR(200),
-    giftRegistryData VARCHAR(200),
     marketingData VARCHAR(200),
     callCenterOperatorData VARCHAR(200),
     followUpEmail VARCHAR(200),
@@ -48,6 +47,7 @@ create table `order` (
     marketingData_utmSource VARCHAR(200),
     marketingData_utmPartner VARCHAR(200),
     marketingData_utmMedium VARCHAR(200),
+    marketingData_utmCampaign VARCHAR(200),
     marketingData_coupon VARCHAR(200),
     marketingData_utmiCampaign VARCHAR(200),
     marketingData_utmipage VARCHAR(200),
@@ -160,5 +160,40 @@ create table paymentData_transactions_payments (
     referenceValue integer,
     orderId VARCHAR(200),
     primary key (id, paymentSystem, orderId),
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+create table ratesAndBenefitsData_rateAndBenefitsIdentifiers (
+    id VARCHAR(200),
+    name VARCHAR(200),
+    matchedParameters_paymentMethodId VARCHAR(200),
+    matchedParameters_couponCodeMarketing VARCHAR(200),
+    orderId VARCHAR(200),
+    primary key (id, orderId),
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+create table packageAttachment_packages (
+    courier VARCHAR(200),
+    invoiceNumber VARCHAR(200),
+    invoiceValue INTEGER,
+    issuanceDate TIMESTAMP,
+    courierStatus_status VARCHAR(200),
+    courierStatus_finished VARCHAR(200),
+    courierStatus_deliveredDate VARCHAR(200),
+    orderId VARCHAR(200),
+    primary key (invoiceNumber, orderId),
+    foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+create table shippingData_logisticsInfo (
+    itemIndex INTEGER,
+    price INTEGER,
+    listPrice INTEGER,
+    sellingPrice INTEGER,
+    shippingEstimate VARCHAR(200),
+    shippingEstimateDate TIMESTAMP,
+    orderId VARCHAR(200),
+    primary key (itemIndex, orderId),
     foreign key (orderId) references `order`(orderId) ON UPDATE CASCADE ON DELETE CASCADE
 );

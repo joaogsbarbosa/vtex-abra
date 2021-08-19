@@ -4,35 +4,34 @@ def filtrar(pedidos):
         pedido_filtrado = {}
         try:
             order = {
-                "orderId": pedido["orderId"],
-                "sequence": pedido["sequence"],
-                "marketplaceOrderId": pedido["marketplaceOrderId"],
-                "marketplaceServicesEndpoint": pedido["marketplaceServicesEndpoint"],
-                "sellerOrderId": pedido["sellerOrderId"],
-                "origin": pedido["origin"],
-                "afffiliateId": pedido["affiliateId"],
-                "salesChannel": pedido["salesChannel"],
-                "merchantName": pedido["merchantName"],
-                "status": pedido["status"],
-                "statusDescription": pedido["statusDescription"],
-                "value": pedido["value"],
-                "creationDate": pedido["creationDate"],
-                "lastChange": pedido["lastChange"],
-                "orderGroup": pedido["orderGroup"],
-                "giftRegistryData": pedido["giftRegistryData"],
-                "callCenterOperatorData": pedido["callCenterOperatorData"],
-                "followUpEmail": pedido["followUpEmail"],
-                "hostname": pedido["hostname"],
-                "roundingError": pedido["roundingError"],
-                "orderFormId": pedido["orderFormId"],
-                "commercialConditionData": pedido["commercialConditionData"],
-                "isCompleted": pedido["isCompleted"],
-                "allowCancellation": pedido["allowCancellation"],
-                "allowEdition": pedido["allowEdition"],
-                "isCheckedIn": pedido["isCheckedIn"],
-                "authorizedDate": pedido["authorizedDate"],
-                "invoicedDate": pedido["invoicedDate"],
-                "cancelReason": pedido["cancelReason"],
+                "orderId": pedido["orderId"] if 'orderId' in pedido else None,
+                "sequence": pedido["sequence"] if 'sequence' in pedido else None,
+                "marketplaceOrderId": pedido["marketplaceOrderId"] if 'marketplaceOrderId' in pedido else None,
+                "marketplaceServicesEndpoint": pedido["marketplaceServicesEndpoint"] if 'marketplaceServicesEndpoint' in pedido else None,
+                "sellerOrderId": pedido["sellerOrderId"] if 'sellerOrderId' in pedido else None,
+                "origin": pedido["origin"] if 'origin' in pedido else None,
+                "afffiliateId": pedido["affiliateId"] if 'affiliateId' in pedido else None,
+                "salesChannel": pedido["salesChannel"] if 'salesChannel' in pedido else None,
+                "merchantName": pedido["merchantName"] if 'merchantName' in pedido else None,
+                "status": pedido["status"] if 'status' in pedido else None,
+                "statusDescription": pedido["statusDescription"] if 'statusDescription' in pedido else None,
+                "value": pedido["value"] if 'value' in pedido else None,
+                "creationDate": pedido["creationDate"] if 'creationDate' in pedido else None,
+                "lastChange": pedido["lastChange"] if 'lastChange' in pedido else None,
+                "orderGroup": pedido["orderGroup"] if 'orderGroup' in pedido else None,
+                "callCenterOperatorData": pedido["callCenterOperatorData"] if 'callCenterOperatorData' in pedido else None,
+                "followUpEmail": pedido["followUpEmail"] if 'followUpEmail' in pedido else None,
+                "hostname": pedido["hostname"] if 'hostname' in pedido else None,
+                "roundingError": pedido["roundingError"] if 'roundingError' in pedido else None,
+                "orderFormId": pedido["orderFormId"] if 'orderFormId' in pedido else None,
+                "commercialConditionData": pedido["commercialConditionData"] if 'commercialConditionData' in pedido else None,
+                "isCompleted": pedido["isCompleted"] if 'isCompleted' in pedido else None,
+                "allowCancellation": pedido["allowCancellation"] if 'allowCancellation' in pedido else None,
+                "allowEdition": pedido["allowEdition"] if 'allowEdition' in pedido else None,
+                "isCheckedIn": pedido["isCheckedIn"] if 'isCheckedIn' in pedido else None,
+                "authorizedDate": pedido["authorizedDate"] if 'authorizedDate' in pedido else None,
+                "invoicedDate": pedido["invoicedDate"] if 'invoicedDate' in pedido else None,
+                "cancelReason": pedido["cancelReason"] if 'cancelReason' in pedido else None,
                 "clientProfileData_id": pedido["clientProfileData"]["id"],
                 "clientProfileData_email": pedido["clientProfileData"]["email"],
                 "clientProfileData_firstName": pedido["clientProfileData"]["firstName"],
@@ -77,13 +76,24 @@ def filtrar(pedidos):
                     pedido["storePreferencesData"]["currencyFormatInfo"]["CurrencyGroupSize"],
                 "storePreferencesData_currencyFormatInfo_StartsWithCurrencySymbol":
                     pedido["storePreferencesData"]["currencyFormatInfo"]["StartsWithCurrencySymbol"],
-                "marketplace_baseURL": pedido["marketplace"]["baseURL"],
-                "marketplace_isCertified": pedido["marketplace"]["isCertified"],
-                "marketplace_name": pedido["marketplace"]["name"],
                 "openTextField_value": pedido["openTextField"]["value"] if pedido["openTextField"] else None,
             }
+            if 'marketplace' in pedido and pedido["marketplace"] is not None:
+                order["marketplace_baseURL"] = pedido["marketplace"]["baseURL"] if 'baseURL' in pedido["marketplace"] else None
+                order["marketplace_isCertified"] = pedido["marketplace"]["isCertified"] if 'isCertified' in pedido["marketplace"] else None
+                order["marketplace_name"] = pedido["marketplace"]["name"] if 'name' in pedido["marketplace"] else None
+            if 'marketingData' in pedido and pedido["marketingData"] is not None:
+                order["marketingData_id"] = pedido["marketingData"]["id"] if 'id' in pedido["marketingData"] else None
+                order["marketingData_utmSource"] = pedido["marketingData"]["utmSource"] if 'utmSource' in pedido["marketingData"] else None
+                order["marketingData_utmPartner"] = pedido["marketingData"]["utmPartner"] if 'utmPartner' in pedido["marketingData"] else None
+                order["marketingData_utmMedium"] = pedido["marketingData"]["utmMedium"] if 'utmMedium' in pedido["marketingData"] else None
+                order["marketingData_utmCampaign"] = pedido["marketingData"]["utmCampaign"] if 'utmCampaign' in pedido["marketingData"] else None
+                order["marketingData_coupon"] = pedido["marketingData"]["coupon"] if 'coupon' in pedido["marketingData"] else None
+                order["marketingData_utmiCampaign"] = pedido["marketingData"]["utmiCampaign"] if 'utmiCampaign' in pedido["marketingData"] else None
+                order["marketingData_utmipage"] = pedido["marketingData"]["utmipage"] if 'utmipage' in pedido["marketingData"] else None
+                order["marketingData_utmiPart"] = pedido["marketingData"]["utmiPart"] if 'utmiPart' in pedido["marketingData"] else None
         except Exception as e:
-            print("[Erro] Objeto order - Erro")
+            print("[Erro] Objeto order - "+pedido["orderId"])
             print("Detalhes do erro:", e)
         else:
             pedido_filtrado["order"] = [order]
@@ -204,6 +214,63 @@ def filtrar(pedidos):
                 print("Detalhes do erro:", e)
             else:
                 pedido_filtrado["paymentData_transactions_payments"] = paymentData_transactions_payments
+
+            try:
+                ratesAndBenefitsData_rateAndBenefitsIdentifiers = []
+                for rateAndBenefitsIdentifier in pedido["ratesAndBenefitsData"]["rateAndBenefitsIdentifiers"]:
+                    rateAndBenefitsIdentifiers_filtrado = {
+                        "id": rateAndBenefitsIdentifier["id"] if 'id' in rateAndBenefitsIdentifier else None,
+                        "name": rateAndBenefitsIdentifier["name"] if 'name' in rateAndBenefitsIdentifier else None,
+                        "matchedParameters_paymentMethodId": rateAndBenefitsIdentifier["matchedParameters"]["paymentMethodId"] if 'paymentMethodId' in rateAndBenefitsIdentifier["matchedParameters"] else None,
+                        "matchedParameters_couponCodeMarketing": rateAndBenefitsIdentifier["matchedParameters"]["couponCode@Marketing"] if 'couponCode@Marketing' in rateAndBenefitsIdentifier["matchedParameters"] else None,
+                        "orderId": order["orderId"],
+                    }
+                    ratesAndBenefitsData_rateAndBenefitsIdentifiers.append(rateAndBenefitsIdentifiers_filtrado)
+            except Exception as e:
+                print("[Erro] Objeto ratesAndBenefitsData_rateAndBenefitsIdentifiers -" + order["orderId"])
+                print("Detalhes do erro:", e)
+            else:
+                pedido_filtrado["ratesAndBenefitsData_rateAndBenefitsIdentifiers"] = ratesAndBenefitsData_rateAndBenefitsIdentifiers
+
+            try:
+                if 'packages' in pedido["packageAttachment"]:
+                    packageAttachment_packages = []
+                    for package in pedido["packageAttachment"]["packages"]:
+                        package_filtrado = {
+                            "courier": package["courier"] if 'courier' in package else None,
+                            "invoiceNumber": package["invoiceNumber"] if 'invoiceNumber' in package else None,
+                            "invoiceValue": package["invoiceValue"] if 'invoiceValue' in package else None,
+                            "issuanceDate": package["issuanceDate"] if 'issuanceDate' in package else None,
+                            "orderId": order["orderId"],
+                        }
+                        if 'courierStatus' in package and package["courierStatus"] is not None:
+                            package_filtrado["courierStatus_status"] = package["courierStatus"]["status"] if 'status' in package["courierStatus"] else None
+                            package_filtrado["courierStatus_finished"] = package["courierStatus"]["finished"] if 'finished' in package["courierStatus"] else None
+                            package_filtrado["courierStatus_deliveredDate"] = package["courierStatus"]["deliveredDate"] if 'deliveredDate' in package["courierStatus"] else None
+                        packageAttachment_packages.append(package_filtrado)
+                    pedido_filtrado["packageAttachment_packages"] = packageAttachment_packages
+            except Exception as e:
+                print("[Erro] Objeto packageAttachment_packages -" + order["orderId"])
+                print("Detalhes do erro:", e)
+
+            try:
+                shippingData_logisticsInfo = []
+                for logisticInfo in pedido["shippingData"]["logisticsInfo"]:
+                    logisticInfo_filtrado = {
+                        "itemIndex": logisticInfo["itemIndex"],
+                        "price": logisticInfo["price"],
+                        "listPrice": logisticInfo["listPrice"],
+                        "sellingPrice": logisticInfo["sellingPrice"],
+                        "shippingEstimate": logisticInfo["shippingEstimate"],
+                        "shippingEstimateDate": logisticInfo["shippingEstimateDate"],
+                        "orderId": order["orderId"],
+                    }
+                    shippingData_logisticsInfo.append(logisticInfo_filtrado)
+            except Exception as e:
+                print("[Erro] Objeto shippingData_logisticsInfo -" + order["orderId"])
+                print("Detalhes do erro:", e)
+            else:
+                pedido_filtrado["shippingData_logisticsInfo"] = shippingData_logisticsInfo
 
             pedidos_novos.append(pedido_filtrado)
 
